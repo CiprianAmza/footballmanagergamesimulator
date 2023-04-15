@@ -21,7 +21,7 @@ public class MatchSquad {
   private long tacticId;
 
   /**
-   * 18 positions (11 first team positions + 7 substitues) playerId + playerName
+   * 18 positions (11 first team positions + 7 substitutes) playerId + playerName
    */
   private long positionPlayerId1;
   private String positionPlayerName1;
