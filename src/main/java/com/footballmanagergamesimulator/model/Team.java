@@ -31,4 +31,11 @@ public class Team {
   private long salaryBudget;
   private int reputation;
 
+  /**
+   * Display information
+   */
+  private String color1;
+  private String color2;
+  private String border;
+
 }
