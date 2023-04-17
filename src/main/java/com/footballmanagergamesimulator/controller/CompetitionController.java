@@ -1,18 +1,12 @@
 package com.footballmanagergamesimulator.controller;
 
 import com.footballmanagergamesimulator.frontend.TeamCompetitionView;
-import com.footballmanagergamesimulator.model.Team;
-import com.footballmanagergamesimulator.model.TeamCompetitionDetail;
-import com.footballmanagergamesimulator.model.TeamCompetitionRelation;
-import com.footballmanagergamesimulator.repository.HumanRepository;
-import com.footballmanagergamesimulator.repository.TeamCompetitionDetailRepository;
-import com.footballmanagergamesimulator.repository.TeamCompetitionRelationRepository;
-import com.footballmanagergamesimulator.repository.TeamRepository;
+import com.footballmanagergamesimulator.model.*;
+import com.footballmanagergamesimulator.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -21,13 +15,16 @@ import java.util.stream.Collectors;
 public class CompetitionController {
 
   @Autowired
-  private HumanRepository humanRepository;
-  @Autowired
   private TeamRepository teamRepository;
   @Autowired
   private TeamCompetitionRelationRepository teamCompetitionRelationRepository;
   @Autowired
   private TeamCompetitionDetailRepository teamCompetitionDetailRepository;
+  @Autowired
+  private CompetitionTeamInfoRepository competitionTeamInfoRepository;
+
+  @Autowired
+  private CompetitionTeamInfoDetailRepository competitionTeamInfoDetailRepository;
 
 
   @GetMapping("/getTeams/{competitionId}")
@@ -57,7 +54,6 @@ public class CompetitionController {
     return teamCompetitionViews;
   }
 
-
   private TeamCompetitionView adaptTeam(Team team, TeamCompetitionDetail teamCompetitionDetail) {
 
     TeamCompetitionView teamCompetitionView = new TeamCompetitionView();
@@ -83,4 +79,78 @@ public class CompetitionController {
     return teamCompetitionView;
   }
 
+  @GetMapping("playRound/{competitionId}/{roundId}")
+  public void playRound(@RequestParam(name = "competitionId") String competitionId, @RequestParam(name = "roundId") String roundId) {
+
+    long _competitionId = Long.parseLong(competitionId);
+    long _roundId = Long.parseLong(roundId);
+    long nextRound = getNextRound(_roundId);
+    if (nextRound == -1)
+      throw new RuntimeException("No more rounds");
+
+
+    Random random = new Random();
+
+    List<Long> getParticipants = competitionTeamInfoRepository
+      .findAllByRound(_roundId)
+      .stream()
+      .mapToLong(CompetitionTeamInfo::getTeamId)
+      .boxed()
+      .collect(Collectors.toList());
+
+    for (int i = 0; i < getParticipants.size(); i += 2) {
+      long teamId1 = getParticipants.get(i);
+      long teamId2 = getParticipants.get(i+1);
+
+      long teamScore1 = random.nextLong(5);
+      long teamScore2 = random.nextLong(5);
+      while (teamScore2 == teamScore1)
+        teamScore2 = random.nextLong(5);
+
+      CompetitionTeamInfo competitionTeamInfo = new CompetitionTeamInfo();
+      competitionTeamInfo.setCompetitionId(_competitionId);
+      competitionTeamInfo.setRound(nextRound);
+
+      competitionTeamInfo.setTeamId(teamScore1 > teamScore2 ? teamId1 : teamId2);
+      competitionTeamInfoRepository.save(competitionTeamInfo);
+
+      CompetitionTeamInfoDetail competitionTeamInfoDetail = new CompetitionTeamInfoDetail();
+      competitionTeamInfoDetail.setCompetitionId(_competitionId);
+      competitionTeamInfoDetail.setRoundId(_roundId);
+      competitionTeamInfoDetail.setTeam1Id(teamId1);
+      competitionTeamInfoDetail.setTeam2Id(teamId2);
+      competitionTeamInfoDetail.setScore(teamScore1 + " - " + teamScore2);
+      competitionTeamInfoDetailRepository.save(competitionTeamInfoDetail);
+    }
+
+  }
+
+  private long getNextRound(long previousRound) {
+
+    List<Long> rounds = List.of(1L, 2L, 3L, 4L);
+    for (int i = 0; i < rounds.size(); i++)
+      if (rounds.get(i) == previousRound)
+        return i == rounds.size() - 1 ? -1 : rounds.get(i+1);
+
+    return -1;
+  }
+
+
+  @GetMapping("getResults/{competitionId}/{roundId}")
+  public List<CompetitionTeamInfoDetail> getResults(@RequestParam(name = "competitionId") String competitionId, @RequestParam(name = "roundId") String roundId) {
+
+    long _competitionId = Long.parseLong(competitionId);
+    long _roundId = Long.parseLong(roundId);
+
+    List<CompetitionTeamInfoDetail> competitionTeamInfoDetails =
+      competitionTeamInfoDetailRepository
+        .findAll()
+        .stream()
+        .filter(competitionTeamInfoDetail -> competitionTeamInfoDetail.getRoundId() == _roundId)
+        .filter(competitionTeamInfoDetail -> competitionTeamInfoDetail.getCompetitionId() == _competitionId)
+        .toList();
+
+    return competitionTeamInfoDetails;
+
+  }
 }

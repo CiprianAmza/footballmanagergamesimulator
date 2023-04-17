@@ -26,6 +26,7 @@ public class CompetitionTeamInfoDetail {
    */
 
   private String score;
+  private long roundId;
 
 
 }
