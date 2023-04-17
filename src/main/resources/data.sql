@@ -144,3 +144,25 @@ INSERT INTO teamcompetitiondetail (games, wins, draws, loses, goalsFor, goalsAga
 VALUES (38, 0, 0, 38, 106, 4, 102, 0, 1, 11, "LLLLL", "7, 10, 10, 11, 11, 10, 9, 8, 10, 11");
 INSERT INTO teamcompetitiondetail (games, wins, draws, loses, goalsFor, goalsAgainst, goalDifference, points, competitionId, teamId, form, last10positions)
 VALUES (38, 0, 0, 38, 106, 4, 102, 0, 1, 12, "LLLLL", "12, 12, 12, 12, 12, 12, 12, 12, 12, 12");
+
+
+-- competitionteaminfo values
+DROP TABLE IF EXISTS competitionteaminfo;
+CREATE TABLE competitionteaminfo (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  teamId BIGINT,
+  competitionId BIGINT,
+  round INT
+);
+INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (1, 1, 2);
+INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (2, 1, 2);
+INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (3, 1, 2);
+INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (4, 1, 2);
+INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (5, 1, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (6, 1, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (7, 1, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (8, 1, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (9, 1, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (10, 1, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (11, 1, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (12, 1, 1);
