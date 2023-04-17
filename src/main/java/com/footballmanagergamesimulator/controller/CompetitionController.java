@@ -80,19 +80,21 @@ public class CompetitionController {
   }
 
   @GetMapping("playRound/{competitionId}/{roundId}")
-  public void playRound(@RequestParam(name = "competitionId") String competitionId, @RequestParam(name = "roundId") String roundId) {
+  public void playRound(@PathVariable(name = "competitionId") String competitionId, @PathVariable(name = "roundId") String roundId) {
 
     long _competitionId = Long.parseLong(competitionId);
     long _roundId = Long.parseLong(roundId);
     long nextRound = getNextRound(_roundId);
-    if (nextRound == -1)
-      throw new RuntimeException("No more rounds");
 
 
     Random random = new Random();
+    List<CompetitionTeamInfo> competitionTeamInfos = competitionTeamInfoRepository
+      .findAllByRound(_roundId);
 
-    List<Long> getParticipants = competitionTeamInfoRepository
-      .findAllByRound(_roundId)
+    for (CompetitionTeamInfo competitionTeamInfo: competitionTeamInfos)
+      competitionTeamInfoRepository.delete(competitionTeamInfo);
+
+    List<Long> getParticipants = competitionTeamInfos
       .stream()
       .mapToLong(CompetitionTeamInfo::getTeamId)
       .boxed()
@@ -107,12 +109,15 @@ public class CompetitionController {
       while (teamScore2 == teamScore1)
         teamScore2 = random.nextLong(5);
 
-      CompetitionTeamInfo competitionTeamInfo = new CompetitionTeamInfo();
-      competitionTeamInfo.setCompetitionId(_competitionId);
-      competitionTeamInfo.setRound(nextRound);
+      if (nextRound != -1) {
+        CompetitionTeamInfo competitionTeamInfo = new CompetitionTeamInfo();
+        competitionTeamInfo.setCompetitionId(_competitionId);
+        competitionTeamInfo.setRound(nextRound);
 
-      competitionTeamInfo.setTeamId(teamScore1 > teamScore2 ? teamId1 : teamId2);
-      competitionTeamInfoRepository.save(competitionTeamInfo);
+        competitionTeamInfo.setTeamId(teamScore1 > teamScore2 ? teamId1 : teamId2);
+        competitionTeamInfoRepository.save(competitionTeamInfo);
+      }
+
 
       CompetitionTeamInfoDetail competitionTeamInfoDetail = new CompetitionTeamInfoDetail();
       competitionTeamInfoDetail.setCompetitionId(_competitionId);
@@ -137,7 +142,7 @@ public class CompetitionController {
 
 
   @GetMapping("getResults/{competitionId}/{roundId}")
-  public List<CompetitionTeamInfoDetail> getResults(@RequestParam(name = "competitionId") String competitionId, @RequestParam(name = "roundId") String roundId) {
+  public List<CompetitionTeamInfoDetail> getResults(@PathVariable(name = "competitionId") String competitionId, @PathVariable(name = "roundId") String roundId) {
 
     long _competitionId = Long.parseLong(competitionId);
     long _roundId = Long.parseLong(roundId);
