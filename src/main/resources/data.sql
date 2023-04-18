@@ -30,6 +30,7 @@ CREATE TABLE competition(
 );
 
 INSERT INTO competition (nationId, prizesId, name) VALUES (1, 1, "Gallactick Football First League");
+INSERT INTO competition (nationId, prizesId, name) VALUES (1, 2, "Gallactick Football Cup");
 
 
 
@@ -101,6 +102,19 @@ INSERT INTO teamcompetitionrelation (teamId, competitionId) VALUES(10, 1);
 INSERT INTO teamcompetitionrelation (teamId, competitionId) VALUES(11, 1);
 INSERT INTO teamcompetitionrelation (teamId, competitionId) VALUES(12, 1);
 
+INSERT INTO teamcompetitionrelation (teamId, competitionId) VALUES(1, 2);
+INSERT INTO teamcompetitionrelation (teamId, competitionId) VALUES(2, 2);
+INSERT INTO teamcompetitionrelation (teamId, competitionId) VALUES(3, 2);
+INSERT INTO teamcompetitionrelation (teamId, competitionId) VALUES(4, 2);
+INSERT INTO teamcompetitionrelation (teamId, competitionId) VALUES(5, 2);
+INSERT INTO teamcompetitionrelation (teamId, competitionId) VALUES(6, 2);
+INSERT INTO teamcompetitionrelation (teamId, competitionId) VALUES(7, 2);
+INSERT INTO teamcompetitionrelation (teamId, competitionId) VALUES(8, 2);
+INSERT INTO teamcompetitionrelation (teamId, competitionId) VALUES(9, 2);
+INSERT INTO teamcompetitionrelation (teamId, competitionId) VALUES(10, 2);
+INSERT INTO teamcompetitionrelation (teamId, competitionId) VALUES(11, 2);
+INSERT INTO teamcompetitionrelation (teamId, competitionId) VALUES(12, 2);
+
 
 -- teamcompetitiondetail values
 DROP TABLE IF EXISTS teamcompetitiondetail;
@@ -121,29 +135,54 @@ CREATE TABLE teamcompetitiondetail (
 );
 
 INSERT INTO teamcompetitiondetail (games, wins, draws, loses, goalsFor, goalsAgainst, goalDifference, points, competitionId, teamId, form, last10positions)
-VALUES (38, 30, 6, 2, 106, 4, 102, 96, 1, 1, "WWWWW", "1, 1, 1, 1, 1, 1, 1, 1, 1, 1");
+VALUES (0, 0, 0, 0, 0, 0, 0, 0, 1, 1, "", "1, 1, 1, 1, 1, 1, 1, 1, 1, 1");
 INSERT INTO teamcompetitiondetail (games, wins, draws, loses, goalsFor, goalsAgainst, goalDifference, points, competitionId, teamId, form, last10positions)
-VALUES (38, 29, 6, 3, 106, 4, 102, 93, 1, 2, "WWWWD", "5, 3, 5, 6, 7, 4, 4, 3, 2, 2");
+VALUES (0, 0, 0, 0, 0, 0, 0, 0, 1, 2, "", "5, 3, 5, 6, 7, 4, 4, 3, 2, 2");
 INSERT INTO teamcompetitiondetail (games, wins, draws, loses, goalsFor, goalsAgainst, goalDifference, points, competitionId, teamId, form, last10positions)
-VALUES (38, 19, 4, 15, 106, 4, 102, 61, 1, 3, "WDWWW", "2, 2, 2, 2, 2, 2, 2, 2, 3, 3");
+VALUES (0, 0, 0, 0, 0, 0, 0, 0, 1, 3, "", "2, 2, 2, 2, 2, 2, 2, 2, 3, 3");
 INSERT INTO teamcompetitiondetail (games, wins, draws, loses, goalsFor, goalsAgainst, goalDifference, points, competitionId, teamId, form, last10positions)
-VALUES (38, 18, 0, 20, 106, 4, 102, 54, 1, 4, "WDWWD", "3, 4, 4, 4, 4, 4, 3, 3, 4, 4");
+VALUES (0, 0, 0, 0, 0, 0, 0, 0, 1, 4, "", "3, 4, 4, 4, 4, 4, 3, 3, 4, 4");
 INSERT INTO teamcompetitiondetail (games, wins, draws, loses, goalsFor, goalsAgainst, goalDifference, points, competitionId, teamId, form, last10positions)
-VALUES (38, 13, 5, 20, 106, 4, 102, 44, 1, 5, "WWLLW", "6, 5, 7, 5, 5, 6, 5, 5, 6, 5");
+VALUES (0, 0, 0, 0, 0, 0, 0, 0, 1, 5, "", "6, 5, 7, 5, 5, 6, 5, 5, 6, 5");
 INSERT INTO teamcompetitiondetail (games, wins, draws, loses, goalsFor, goalsAgainst, goalDifference, points, competitionId, teamId, form, last10positions)
-VALUES (38, 10, 7, 21, 106, 4, 102, 37, 1, 6, "LLWDD", "8, 7, 5, 6, 4, 5, 6, 7, 7, 6");
+VALUES (0, 0, 0, 0, 0, 0, 0, 0, 1, 6, "", "8, 7, 5, 6, 4, 5, 6, 7, 7, 6");
 INSERT INTO teamcompetitiondetail (games, wins, draws, loses, goalsFor, goalsAgainst, goalDifference, points, competitionId, teamId, form, last10positions)
-VALUES (38, 9, 4, 25, 106, 4, 102, 29, 1, 7, "WWLDD", "7, 10, 10, 11, 11, 10, 9, 8, 10, 7");
+VALUES (0, 0, 0, 0, 0, 0, 0, 0, 1, 7, "", "7, 10, 10, 11, 11, 10, 9, 8, 10, 7");
 INSERT INTO teamcompetitiondetail (games, wins, draws, loses, goalsFor, goalsAgainst, goalDifference, points, competitionId, teamId, form, last10positions)
-VALUES (38, 8, 1, 29, 106, 4, 102, 25, 1, 8, "WLLLL", "11, 10, 10, 11, 11, 10, 9, 8, 10, 8");
+VALUES (0, 0, 0, 0, 0, 0, 0, 0, 1, 8, "", "11, 10, 10, 11, 11, 10, 9, 8, 10, 8");
 INSERT INTO teamcompetitiondetail (games, wins, draws, loses, goalsFor, goalsAgainst, goalDifference, points, competitionId, teamId, form, last10positions)
-VALUES (38, 6, 3, 29, 106, 4, 102, 21, 1, 9, "WLDDL", "6, 10, 5, 8, 12, 9, 9, 12, 10, 9");
+VALUES (0, 0, 0, 0, 0, 0, 0, 0, 1, 9, "", "6, 10, 5, 8, 12, 9, 9, 12, 10, 9");
 INSERT INTO teamcompetitiondetail (games, wins, draws, loses, goalsFor, goalsAgainst, goalDifference, points, competitionId, teamId, form, last10positions)
-VALUES (38, 2, 2, 34, 106, 4, 102, 8, 1, 10, "LLLLL", "8, 10, 10, 11, 11, 10, 9, 8, 10, 10");
+VALUES (0, 0, 0, 0, 0, 0, 0, 0, 1, 10, "", "8, 10, 10, 11, 11, 10, 9, 8, 10, 10");
 INSERT INTO teamcompetitiondetail (games, wins, draws, loses, goalsFor, goalsAgainst, goalDifference, points, competitionId, teamId, form, last10positions)
-VALUES (38, 0, 0, 38, 106, 4, 102, 0, 1, 11, "LLLLL", "7, 10, 10, 11, 11, 10, 9, 8, 10, 11");
+VALUES (0, 0, 0, 0, 0, 0, 0, 0, 1, 11, "", "7, 10, 10, 11, 11, 10, 9, 8, 10, 11");
 INSERT INTO teamcompetitiondetail (games, wins, draws, loses, goalsFor, goalsAgainst, goalDifference, points, competitionId, teamId, form, last10positions)
-VALUES (38, 0, 0, 38, 106, 4, 102, 0, 1, 12, "LLLLL", "12, 12, 12, 12, 12, 12, 12, 12, 12, 12");
+VALUES (0, 0, 0, 0, 0, 0, 0, 0, 1, 12, "", "12, 12, 12, 12, 12, 12, 12, 12, 12, 12");
+
+INSERT INTO teamcompetitiondetail (games, wins, draws, loses, goalsFor, goalsAgainst, goalDifference, points, competitionId, teamId, form, last10positions)
+VALUES (0, 0, 0, 0, 0, 0, 0, 0, 2, 1, "", "1, 1, 1, 1, 1, 1, 1, 1, 1, 1");
+INSERT INTO teamcompetitiondetail (games, wins, draws, loses, goalsFor, goalsAgainst, goalDifference, points, competitionId, teamId, form, last10positions)
+VALUES (0, 0, 0, 0, 0, 0, 0, 0, 2, 2, "", "5, 3, 5, 6, 7, 4, 4, 3, 2, 2");
+INSERT INTO teamcompetitiondetail (games, wins, draws, loses, goalsFor, goalsAgainst, goalDifference, points, competitionId, teamId, form, last10positions)
+VALUES (0, 0, 0, 0, 0, 0, 0, 0, 2, 3, "", "2, 2, 2, 2, 2, 2, 2, 2, 3, 3");
+INSERT INTO teamcompetitiondetail (games, wins, draws, loses, goalsFor, goalsAgainst, goalDifference, points, competitionId, teamId, form, last10positions)
+VALUES (0, 0, 0, 0, 0, 0, 0, 0, 2, 4, "", "3, 4, 4, 4, 4, 4, 3, 3, 4, 4");
+INSERT INTO teamcompetitiondetail (games, wins, draws, loses, goalsFor, goalsAgainst, goalDifference, points, competitionId, teamId, form, last10positions)
+VALUES (0, 0, 0, 0, 0, 0, 0, 0, 2, 5, "", "6, 5, 7, 5, 5, 6, 5, 5, 6, 5");
+INSERT INTO teamcompetitiondetail (games, wins, draws, loses, goalsFor, goalsAgainst, goalDifference, points, competitionId, teamId, form, last10positions)
+VALUES (0, 0, 0, 0, 0, 0, 0, 0, 2, 6, "", "8, 7, 5, 6, 4, 5, 6, 7, 7, 6");
+INSERT INTO teamcompetitiondetail (games, wins, draws, loses, goalsFor, goalsAgainst, goalDifference, points, competitionId, teamId, form, last10positions)
+VALUES (0, 0, 0, 0, 0, 0, 0, 0, 2, 7, "", "7, 10, 10, 11, 11, 10, 9, 8, 10, 7");
+INSERT INTO teamcompetitiondetail (games, wins, draws, loses, goalsFor, goalsAgainst, goalDifference, points, competitionId, teamId, form, last10positions)
+VALUES (0, 0, 0, 0, 0, 0, 0, 0, 2, 8, "", "11, 10, 10, 11, 11, 10, 9, 8, 10, 8");
+INSERT INTO teamcompetitiondetail (games, wins, draws, loses, goalsFor, goalsAgainst, goalDifference, points, competitionId, teamId, form, last10positions)
+VALUES (0, 0, 0, 0, 0, 0, 0, 0, 2, 9, "", "6, 10, 5, 8, 12, 9, 9, 12, 10, 9");
+INSERT INTO teamcompetitiondetail (games, wins, draws, loses, goalsFor, goalsAgainst, goalDifference, points, competitionId, teamId, form, last10positions)
+VALUES (0, 0, 0, 0, 0, 0, 0, 0, 2, 10, "", "8, 10, 10, 11, 11, 10, 9, 8, 10, 10");
+INSERT INTO teamcompetitiondetail (games, wins, draws, loses, goalsFor, goalsAgainst, goalDifference, points, competitionId, teamId, form, last10positions)
+VALUES (0, 0, 0, 0, 0, 0, 0, 0, 2, 11, "", "7, 10, 10, 11, 11, 10, 9, 8, 10, 11");
+INSERT INTO teamcompetitiondetail (games, wins, draws, loses, goalsFor, goalsAgainst, goalDifference, points, competitionId, teamId, form, last10positions)
+VALUES (0, 0, 0, 0, 0, 0, 0, 0, 2, 12, "", "12, 12, 12, 12, 12, 12, 12, 12, 12, 12");
 
 
 -- competitionteaminfo values
@@ -154,10 +193,10 @@ CREATE TABLE competitionteaminfo (
   competitionId BIGINT,
   round INT
 );
-INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (1, 1, 2);
-INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (2, 1, 2);
-INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (3, 1, 2);
-INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (4, 1, 2);
+INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (1, 1, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (2, 1, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (3, 1, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (4, 1, 1);
 INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (5, 1, 1);
 INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (6, 1, 1);
 INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (7, 1, 1);
@@ -166,3 +205,16 @@ INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (9, 1, 1);
 INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (10, 1, 1);
 INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (11, 1, 1);
 INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (12, 1, 1);
+
+INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (1, 2, 2);
+INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (2, 2, 2);
+INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (3, 2, 2);
+INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (4, 2, 2);
+INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (5, 2, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (6, 2, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (7, 2, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (8, 2, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (9, 2, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (10, 2, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (11, 2, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (12, 2, 1);
