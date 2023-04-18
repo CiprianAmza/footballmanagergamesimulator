@@ -9,4 +9,6 @@ public interface CompetitionTeamInfoRepository extends JpaRepository<Competition
 
   List<CompetitionTeamInfo> findAllByRound(long round);
 
+  List<CompetitionTeamInfo> findAllByRoundAndCompetitionId(long round, long competitionId);
+
 }

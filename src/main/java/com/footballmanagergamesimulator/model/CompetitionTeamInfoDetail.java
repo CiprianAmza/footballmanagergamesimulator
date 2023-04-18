@@ -27,6 +27,8 @@ public class CompetitionTeamInfoDetail {
 
   private String score;
   private long roundId;
+  private String teamName1;
+  private String teamName2;
 
 
 }
