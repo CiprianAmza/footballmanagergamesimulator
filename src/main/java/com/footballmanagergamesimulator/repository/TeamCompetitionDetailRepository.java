@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TeamCompetitionDetailRepository extends JpaRepository<TeamCompetitionDetail, Long> {
 
-  TeamCompetitionDetail findByTeamIdAndCompetitionId(long teamId, long competitionId);
+  TeamCompetitionDetail findTeamCompetitionDetailByTeamIdAndCompetitionId(long teamId, long competitionId);
 }
