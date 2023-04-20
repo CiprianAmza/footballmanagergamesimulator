@@ -33,6 +33,152 @@ public class CompetitionController {
   Round round;
   @Autowired
   RoundRobin roundRobin;
+  @Autowired
+  CompetitionHistoryRepository competitionHistoryRepository;
+  @Autowired
+  CompetitionRepository competitionRepository;
+
+  @GetMapping("/play")
+  @Scheduled(fixedDelay = 3000)
+  public void play() {
+
+    if (round.getRound() > 50) {
+      // season reset
+
+
+      // save historical values
+      Set<Long> competitions = competitionRepository.findAll()
+        .stream()
+          .mapToLong(Competition::getId)
+            .boxed().collect(Collectors.toSet());
+
+      for (Long competitionId: competitions)
+        this.saveHistoricalValues(competitionId, round.getSeason());
+
+      // reset values
+      this.resetCompetitionData();
+      for (Long competitionId: competitions)
+        this.removeCompetitionData(competitionId, round.getSeason());
+      round.setRound(1);
+      round.setSeason(round.getSeason() + 1);
+
+      // reinitialize CompetitionTeamInfo
+      List<Long> teamIds = List.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L, 10L, 11L, 12L);
+      for (Long teamId: teamIds) {
+        // championship
+        CompetitionTeamInfo competitionTeamInfo = new CompetitionTeamInfo();
+        competitionTeamInfo.setCompetitionId(1L);
+        competitionTeamInfo.setRound(1);
+        competitionTeamInfo.setTeamId(teamId);
+        competitionTeamInfoRepository.save(competitionTeamInfo);
+
+        // cup
+        CompetitionTeamInfo cup = new CompetitionTeamInfo();
+        cup.setCompetitionId(2L);
+        cup.setRound(teamId < 5 ? 2: 1);
+        cup.setTeamId(teamId);
+        competitionTeamInfoRepository.save(cup);
+
+      }
+
+
+    }
+
+    if (round.getRound() == 1)
+      this.getFixturesForRound("1", "1");
+
+    this.simulateRound("1", round.getRound() - 1 + "");
+
+    if (round.getRound() == 5) {
+      this.getFixturesForRound("2", "1");
+      this.simulateRound("2", "1");
+    }
+    if (round.getRound() == 10) {
+      this.getFixturesForRound("2", "2");
+      this.simulateRound("2", "2");
+    }
+    if (round.getRound() == 20) {
+      this.getFixturesForRound("2", "3");
+      this.simulateRound("2", "3");
+    }
+    if (round.getRound() == 35) {
+      this.getFixturesForRound("2", "4");
+      this.simulateRound("2", "4");
+    }
+    round.setRound(round.getRound() + 1);
+  }
+
+  public void removeCompetitionData(Long competitionId, Long seasonNumber) {
+
+    List<TeamCompetitionDetail> teamCompetitionDetails = teamCompetitionDetailRepository.findAll();
+
+    for (TeamCompetitionDetail team: teamCompetitionDetails) {
+
+      TeamCompetitionDetail newTeam = new TeamCompetitionDetail();
+      newTeam.setTeamId(team.getTeamId());
+      newTeam.setCompetitionId(team.getCompetitionId());
+      teamCompetitionDetailRepository.delete(team);
+      teamCompetitionDetailRepository.save(newTeam);
+    }
+  }
+
+  public void resetCompetitionData() {
+
+    competitionTeamInfoDetailRepository.deleteAll();
+    competitionTeamInfoMatchRepository.deleteAll();
+    competitionTeamInfoRepository.deleteAll();
+
+  }
+
+  public void saveHistoricalValues(Long competitionId, Long seasonNumber) {
+
+    List<TeamCompetitionDetail> teams = teamCompetitionDetailRepository.findAll()
+      .stream()
+      .filter(teamCompetitionDetail -> teamCompetitionDetail.getCompetitionId() == competitionId)
+      .collect(Collectors.toList());
+
+    Collections.sort(teams, (a, b) -> {
+      int pointsA = a.getPoints();
+      int pointsB = b.getPoints();
+      if (pointsA != pointsB)
+        return pointsA > pointsB ? -1 : 1;
+
+      int gdA = a.getGoalDifference();
+      int gdB = b.getGoalDifference();
+      if (gdA != gdB)
+        return gdA > gdB ? -1 : 1;
+
+      return a.getGoalsFor() > b.getGoalsFor() ? -1 : 1;
+    });
+
+    for (int i = 0; i < teams.size(); i++) {
+      TeamCompetitionDetail team = teams.get(i);
+      if (team.getCompetitionId() != competitionId)
+        continue;
+      competitionHistoryRepository.save(this.adaptCompetitionHistory(team, seasonNumber, 1 + i));
+    }
+  }
+
+  private CompetitionHistory adaptCompetitionHistory(TeamCompetitionDetail team, Long seasonNumber, long position) {
+
+    CompetitionHistory competitionHistory = new CompetitionHistory();
+
+    competitionHistory.setSeasonNumber(seasonNumber);
+    competitionHistory.setLastPosition(position);
+    competitionHistory.setCompetitionId(team.getCompetitionId());
+    competitionHistory.setTeamId(team.getTeamId());
+    competitionHistory.setGames(team.getGames());
+    competitionHistory.setWins(team.getWins());
+    competitionHistory.setDraws(team.getDraws());
+    competitionHistory.setLoses(team.getLoses());
+    competitionHistory.setGoalsFor(team.getGoalsFor());
+    competitionHistory.setGoalsAgainst(team.getGoalsAgainst());
+    competitionHistory.setGoalDifference(team.getGoalDifference());
+    competitionHistory.setPoints(team.getPoints());
+    competitionHistory.setForm(team.getForm());
+
+    return competitionHistory;
+  }
 
 
   @GetMapping("/getTeams/{competitionId}")
@@ -114,35 +260,6 @@ public class CompetitionController {
     return competitionTeamInfoDetails;
 
   }
-
-  @GetMapping("/play")
-  @Scheduled(fixedDelay = 3000)
-  public void play() {
-
-    if (round.getRound() == 1)
-      this.getFixturesForRound("1", "1");
-
-    this.simulateRound("1", round.getRound() - 1 + "");
-
-    if (round.getRound() == 5) {
-      this.getFixturesForRound("2", "1");
-      this.simulateRound("2", "1");
-    }
-    if (round.getRound() == 10) {
-      this.getFixturesForRound("2", "2");
-      this.simulateRound("2", "2");
-    }
-    if (round.getRound() == 20) {
-      this.getFixturesForRound("2", "3");
-      this.simulateRound("2", "3");
-    }
-    if (round.getRound() == 35) {
-      this.getFixturesForRound("2", "4");
-      this.simulateRound("2", "4");
-    }
-    round.setRound(round.getRound() + 1);
-  }
-
 
   @GetMapping("getParticipants/{competitionId}/{roundId}")
   public List<Long> getParticipants(@PathVariable(name = "competitionId") String competitionId, @PathVariable(name = "roundId") String roundId) {
