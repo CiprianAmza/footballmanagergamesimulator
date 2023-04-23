@@ -16,12 +16,11 @@ public class RoundRobin {
 
     for (int round = 1; round < teams.size(); round++) {
       List<List<Long>> curRound = new ArrayList<>();
-      for (int i = 0; i < teams.size(); i += 2)
-        curRound.add(List.of(teams.get(i), teams.get(i+1)));
+      int halfSize = teams.size() / 2;
+      for (int i = 0; i < halfSize; i++)
+        curRound.add(List.of(teams.get(i), teams.get(teams.size()-i-1)));
 
       scheduleFirstLeg.add(curRound);
-
-      Collections.reverse(curRound);
       scheduleSecondLeg.add(curRound);
 
       swapList(teams);
@@ -34,10 +33,7 @@ public class RoundRobin {
 
   private void swapList(List<Long> teams) {
 
-    Long indexTwo = teams.get(1);
-    for (int i = 2; i < teams.size(); i++)
-      teams.set(i-1, teams.get(i));
-
-    teams.set(teams.size() - 1, indexTwo);
+    teams.add(1, teams.get(teams.size()-1));
+    teams.remove(teams.size()-1);
   }
 }
