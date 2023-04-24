@@ -33,7 +33,11 @@ public class RoundRobin {
 
   private void swapList(List<Long> teams) {
 
-    teams.add(1, teams.get(teams.size()-1));
-    teams.remove(teams.size()-1);
+    for (int i = 1; i < teams.size(); i++) {
+      long currentElement = teams.get(i);
+      long lastElement = teams.get(teams.size()-1);
+      teams.set(i, lastElement);
+      teams.set(teams.size()-1, currentElement);
+    }
   }
 }
