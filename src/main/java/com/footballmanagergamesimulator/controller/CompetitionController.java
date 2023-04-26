@@ -4,6 +4,7 @@ import com.footballmanagergamesimulator.algorithms.RoundRobin;
 import com.footballmanagergamesimulator.frontend.TeamCompetitionView;
 import com.footballmanagergamesimulator.frontend.TeamMatchView;
 import com.footballmanagergamesimulator.model.*;
+import com.footballmanagergamesimulator.nameGenerator.NameGenerator;
 import com.footballmanagergamesimulator.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -19,6 +20,8 @@ public class CompetitionController {
 
   @Autowired
   private TeamRepository teamRepository;
+  @Autowired
+  private HumanRepository humanRepository;
   @Autowired
   private TeamCompetitionRelationRepository teamCompetitionRelationRepository;
   @Autowired
@@ -39,7 +42,7 @@ public class CompetitionController {
   CompetitionRepository competitionRepository;
 
   @GetMapping("/play")
-  @Scheduled(fixedDelay = 3000)
+  @Scheduled(fixedDelay = 10000)
   public void play() {
 
     if (round.getRound() > 50) {
@@ -84,8 +87,30 @@ public class CompetitionController {
 
     }
 
-    if (round.getRound() == 1)
+    if (round.getRound() == 1) {
+
       this.getFixturesForRound("1", "1");
+
+      if (round.getSeason() == 1) {
+        List<Team> teams = teamRepository.findAll();
+        Random random = new Random();
+        for (Team team: teams) {
+          int nrPlayers = random.nextInt(18, 23);
+          for (int i = 0; i < nrPlayers; i++) {
+            String name = NameGenerator.generateName();
+            Human player = new Human();
+            player.setTeamId(team.getId());
+            player.setName(name);
+            player.setTypeId(1L);
+
+            int reputation = team.getReputation() / 100;
+            player.setRating(random.nextInt(reputation, reputation * 2));
+            humanRepository.save(player);
+          }
+        }
+      }
+
+    }
 
     this.simulateRound("1", round.getRound() - 1 + "");
 
@@ -180,6 +205,15 @@ public class CompetitionController {
     return competitionHistory;
   }
 
+  @GetMapping("/historical/getTeams/{competitionId}/{seasonNumber}")
+  public void getHistoricalTeamDetails(@PathVariable(name = "competitionId") long competitionId, @PathVariable(name = "seasonNumber") long seasonNumber) {
+
+    List<CompetitionHistory> teamParticipants = competitionHistoryRepository
+      .findAll()
+      .stream()
+      .filter(competitionHistory -> competitionHistory.getCompetitionId() == competitionId && competitionHistory.getSeasonNumber() == seasonNumber)
+      .collect(Collectors.toList());
+  }
 
   @GetMapping("/getTeams/{competitionId}")
   public List<TeamCompetitionView> getTeamDetails(@PathVariable(name = "competitionId") long competitionId) {
@@ -388,32 +422,12 @@ public class CompetitionController {
 
       int teamScore1, teamScore2;
 
-      int limitA, limitB;
-      if (teamReputation1 - teamReputation2 > 4000) {
-        limitA = 7;
-        limitB = 1;
-      } else if (teamReputation1 - teamReputation2 > 3000) {
-        limitA = 5;
-        limitB = 2;
-      } else if (teamReputation1 - teamReputation2 > 2000) {
-        limitA = 4;
-        limitB = 2;
-      } else if (teamReputation1 - teamReputation2 > 1000) {
-        limitA = 3;
-        limitB = 2;
-      } else if (teamReputation2 - teamReputation1 > 4000) {
-        limitB = 5;
-        limitA = 2;
-      } else if (teamReputation2 - teamReputation1 > 2000) {
-        limitB = 4;
-        limitA = 2;
-      } else if (teamReputation2 - teamReputation1 > 1000) {
-        limitB = 3;
-        limitA = 2;
-      } else {
-        limitA = 3;
-        limitB = 3;
-      }
+      double teamPower1 = getTotalTeamSkill(teamId1);
+      double teamPower2 = getTotalTeamSkill(teamId2);
+
+      List<Integer> limits = calculateLimits(teamPower1, teamPower2);
+      int limitA = limits.get(0);
+      int limitB = limits.get(1);
 
 
       teamScore1 = random.nextInt(limitA);
@@ -483,4 +497,25 @@ public class CompetitionController {
     teamCompetitionDetailRepository.save(team);
   }
 
+  private double getTotalTeamSkill(long teamId) {
+
+    return humanRepository
+      .findAll()
+      .stream()
+      .filter(human -> human.getTeamId() == teamId)
+      .map(Human::getRating)
+      .sorted((a, b) -> Double.compare(b, a))
+      .limit(11)
+      .reduce(Double::sum).orElse(0D);
+
+  }
+
+  private List<Integer> calculateLimits(double power1, double power2) {
+
+    int limitA = (int) (2 + (Math.abs(power1 - power2)) / 100);
+    int limitB = 2;
+
+    return power1 >= power2 ? List.of(limitA, limitB) : List.of(limitB, limitA);
+
+  }
 }
