@@ -205,6 +205,15 @@ public class CompetitionController {
     return competitionHistory;
   }
 
+  @GetMapping("/historical/getTeams/{competitionId}/{seasonNumber}")
+  public void getHistoricalTeamDetails(@PathVariable(name = "competitionId") long competitionId, @PathVariable(name = "seasonNumber") long seasonNumber) {
+
+    List<CompetitionHistory> teamParticipants = competitionHistoryRepository
+      .findAll()
+      .stream()
+      .filter(competitionHistory -> competitionHistory.getCompetitionId() == competitionId && competitionHistory.getSeasonNumber() == seasonNumber)
+      .collect(Collectors.toList());
+  }
 
   @GetMapping("/getTeams/{competitionId}")
   public List<TeamCompetitionView> getTeamDetails(@PathVariable(name = "competitionId") long competitionId) {
