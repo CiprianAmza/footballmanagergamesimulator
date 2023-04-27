@@ -213,6 +213,9 @@ public class CompetitionController {
       .stream()
       .filter(competitionHistory -> competitionHistory.getCompetitionId() == competitionId && competitionHistory.getSeasonNumber() == seasonNumber)
       .collect(Collectors.toList());
+
+    // TODO create CompetitionHistoryDTO
+
   }
 
   @GetMapping("/getTeams/{competitionId}")
