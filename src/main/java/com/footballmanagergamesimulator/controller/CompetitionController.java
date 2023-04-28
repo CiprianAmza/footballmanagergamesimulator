@@ -214,7 +214,7 @@ public class CompetitionController {
       .filter(competitionHistory -> competitionHistory.getCompetitionId() == competitionId && competitionHistory.getSeasonNumber() == seasonNumber)
       .collect(Collectors.toList());
 
-    // TODO create CompetitionHistoryDTO
+
 
   }
 
