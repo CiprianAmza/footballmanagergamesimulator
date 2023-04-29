@@ -206,7 +206,7 @@ public class CompetitionController {
   }
 
   @GetMapping("/historical/getTeams/{competitionId}/{seasonNumber}")
-  public void getHistoricalTeamDetails(@PathVariable(name = "competitionId") long competitionId, @PathVariable(name = "seasonNumber") long seasonNumber) {
+  public List<TeamCompetitionView> getHistoricalTeamDetails(@PathVariable(name = "competitionId") long competitionId, @PathVariable(name = "seasonNumber") long seasonNumber) {
 
     List<CompetitionHistory> teamParticipants = competitionHistoryRepository
       .findAll()
@@ -214,8 +214,12 @@ public class CompetitionController {
       .filter(competitionHistory -> competitionHistory.getCompetitionId() == competitionId && competitionHistory.getSeasonNumber() == seasonNumber)
       .collect(Collectors.toList());
 
+    List<TeamCompetitionView> teamCompetitionViews = new ArrayList<>();
 
+    for (CompetitionHistory competitionHistory: teamParticipants)
+      teamCompetitionViews.add(adaptTeam(teamRepository.findById(competitionHistory.getTeamId()).orElse(new Team()), competitionHistory));
 
+    return teamCompetitionViews;
   }
 
   @GetMapping("/getTeams/{competitionId}")
@@ -243,6 +247,30 @@ public class CompetitionController {
     }
 
     return teamCompetitionViews;
+  }
+
+  private TeamCompetitionView adaptTeam(Team team, CompetitionHistory teamCompetitionHistory) {
+
+    TeamCompetitionView teamCompetitionView = new TeamCompetitionView();
+
+    // Team information
+    teamCompetitionView.setName(team.getName());
+    teamCompetitionView.setColor1(team.getColor1());
+    teamCompetitionView.setColor2(team.getColor2());
+    teamCompetitionView.setBorder(team.getBorder());
+
+    // TeamCompetitionDetail
+    teamCompetitionView.setGames(String.valueOf(teamCompetitionHistory.getGames()));
+    teamCompetitionView.setWins(String.valueOf(teamCompetitionHistory.getWins()));
+    teamCompetitionView.setDraws(String.valueOf(teamCompetitionHistory.getDraws()));
+    teamCompetitionView.setLoses(String.valueOf(teamCompetitionHistory.getLoses()));
+    teamCompetitionView.setGoalsFor(String.valueOf(teamCompetitionHistory.getGoalsFor()));
+    teamCompetitionView.setGoalsAgainst(String.valueOf(teamCompetitionHistory.getGoalsAgainst()));
+    teamCompetitionView.setGoalDifference(String.valueOf(teamCompetitionHistory.getGoalDifference()));
+    teamCompetitionView.setPoints(String.valueOf(teamCompetitionHistory.getPoints()));
+    teamCompetitionView.setForm(teamCompetitionHistory.getForm());
+
+    return teamCompetitionView;
   }
 
   private TeamCompetitionView adaptTeam(Team team, TeamCompetitionDetail teamCompetitionDetail) {
