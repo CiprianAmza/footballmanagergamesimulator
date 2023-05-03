@@ -5,4 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TeamFacilitiesRepository extends JpaRepository<TeamFacilities, Long> {
 
+  TeamFacilities findByTeamId(long teamId);
 }
