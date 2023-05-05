@@ -218,3 +218,27 @@ INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (9, 2, 1);
 INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (10, 2, 1);
 INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (11, 2, 1);
 INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (12, 2, 1);
+
+
+-- teamfacilities values
+DROP TABLE IF EXISTS teamfacilities;
+CREATE TABLE teamfacilities (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  teamId BIGINT,
+  youthAcademyLevel INT,
+  youthTrainingLevel INT,
+  seniorTrainingLevel INT
+);
+
+INSERT INTO teamfacilities (teamId, youthAcademyLevel, youthTrainingLevel, seniorTrainingLevel) VALUES (1, 10, 20, 20);
+INSERT INTO teamfacilities (teamId, youthAcademyLevel, youthTrainingLevel, seniorTrainingLevel) VALUES (2, 15, 20, 18);
+INSERT INTO teamfacilities (teamId, youthAcademyLevel, youthTrainingLevel, seniorTrainingLevel) VALUES (3, 15, 20, 18);
+INSERT INTO teamfacilities (teamId, youthAcademyLevel, youthTrainingLevel, seniorTrainingLevel) VALUES (4, 10, 18, 16);
+INSERT INTO teamfacilities (teamId, youthAcademyLevel, youthTrainingLevel, seniorTrainingLevel) VALUES (5, 10, 16, 16);
+INSERT INTO teamfacilities (teamId, youthAcademyLevel, youthTrainingLevel, seniorTrainingLevel) VALUES (6, 20, 15, 15);
+INSERT INTO teamfacilities (teamId, youthAcademyLevel, youthTrainingLevel, seniorTrainingLevel) VALUES (7, 10, 12, 14);
+INSERT INTO teamfacilities (teamId, youthAcademyLevel, youthTrainingLevel, seniorTrainingLevel) VALUES (8, 10, 14, 13);
+INSERT INTO teamfacilities (teamId, youthAcademyLevel, youthTrainingLevel, seniorTrainingLevel) VALUES (9, 20, 12, 12);
+INSERT INTO teamfacilities (teamId, youthAcademyLevel, youthTrainingLevel, seniorTrainingLevel) VALUES (10, 8, 12, 10);
+INSERT INTO teamfacilities (teamId, youthAcademyLevel, youthTrainingLevel, seniorTrainingLevel) VALUES (11, 7, 11, 9);
+INSERT INTO teamfacilities (teamId, youthAcademyLevel, youthTrainingLevel, seniorTrainingLevel) VALUES (12, 6, 10, 9);
