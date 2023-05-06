@@ -1,12 +1,15 @@
 package com.footballmanagergamesimulator.controller;
 
 import com.footballmanagergamesimulator.algorithms.RoundRobin;
+import com.footballmanagergamesimulator.frontend.PlayerView;
 import com.footballmanagergamesimulator.frontend.TeamCompetitionView;
 import com.footballmanagergamesimulator.frontend.TeamMatchView;
 import com.footballmanagergamesimulator.model.*;
 import com.footballmanagergamesimulator.nameGenerator.NameGenerator;
 import com.footballmanagergamesimulator.repository.*;
+import com.footballmanagergamesimulator.service.HumanService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,10 +43,87 @@ public class CompetitionController {
   CompetitionHistoryRepository competitionHistoryRepository;
   @Autowired
   CompetitionRepository competitionRepository;
+  @Autowired
+  HumanService _humanService;
+  @Autowired
+  TeamFacilitiesRepository _teamFacilitiesRepository;
+
+  @GetMapping("/getBestEleven/{teamId}")
+  private List<PlayerView> getBestEleven(@PathVariable(name = "teamId") String teamId){
+
+    long _teamId = Long.valueOf(teamId);
+
+    Team team = teamRepository.findById(_teamId).orElse(null);
+    if (team == null)
+      throw new RuntimeException("Team not found.");
+
+    List<Human> getBest11 = getBestElevenPlayers(team);
+
+    List<PlayerView> bestEleven =  getBest11
+      .stream()
+      .map(player -> adaptPlayer(player, team))
+      .toList();
+
+    return bestEleven;
+  }
+
+  private List<Human> getBestElevenPlayers(Team team) {
+
+    return humanRepository
+      .findAllByTeamIdAndTypeId(team.getId(), 1L)
+      .stream()
+      .sorted((x, y) -> Double.compare(y.getRating(), x.getRating()))
+      .limit(11)
+      .toList();
+  }
+
+  private PlayerView adaptPlayer(Human human, Team team) {
+
+    PlayerView playerView = new PlayerView();
+    playerView.setAge(human.getAge());
+    playerView.setPosition(human.getPosition());
+    playerView.setRating(human.getRating());
+    playerView.setName(human.getName());
+    playerView.setTeamName(team.getName());
+
+    return playerView;
+  }
+
+  @GetMapping("/getTeamTotalSkills/{competitionId}")
+  private List<Pair<String, Double>> getTeamTotalSkills(@PathVariable(name = "competitionId") String competitionId) {
+
+    long _competitionId = Long.valueOf(competitionId);
+
+    List<Pair<String, Double>> teamTotalSkills = new ArrayList<>();
+    for (Team team: teamRepository.findAllByCompetitionId(_competitionId)) {
+      double totalSkill = getTotalTeamSkill(team.getId());
+      Pair<String, Double> pair = Pair.of(team.getName(), totalSkill);
+      teamTotalSkills.add(pair);
+    }
+
+    return teamTotalSkills
+      .stream()
+      .sorted((x, y) -> Double.compare(y.getValue(), x.getValue()))
+      .toList();
+  }
+
+  @GetMapping("/getCurrentSeason")
+  public String getCurrentSeason() {
+
+    return String.valueOf(round.getSeason());
+  }
+
+  @GetMapping("/getCurrentRound")
+  public String getCurrentRound() {
+
+    return String.valueOf(round.getRound() - 1);
+  }
 
   @GetMapping("/play")
-  @Scheduled(fixedDelay = 10000)
+  @Scheduled(fixedDelay = 3000)
   public void play() {
+
+    List<Long> teamIds = List.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L, 10L, 11L, 12L);
 
     if (round.getRound() > 50) {
       // season reset
@@ -65,8 +145,17 @@ public class CompetitionController {
       round.setRound(1);
       round.setSeason(round.getSeason() + 1);
 
+      // add 1 year for each player
+      _humanService.addOneYearToAge();
+      _humanService.retirePlayers();
+
+      for (Long teamId: teamIds) {
+        TeamFacilities teamFacilities = _teamFacilitiesRepository.findByTeamId(teamId);
+        _humanService.addRegens(teamFacilities, teamId);
+      }
+
       // reinitialize CompetitionTeamInfo
-      List<Long> teamIds = List.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L, 10L, 11L, 12L);
+
       for (Long teamId: teamIds) {
         // championship
         CompetitionTeamInfo competitionTeamInfo = new CompetitionTeamInfo();
@@ -84,6 +173,20 @@ public class CompetitionController {
 
       }
 
+      for (long teamId: teamIds) {
+        List<Human> players = humanRepository.findAllByTeamIdAndTypeId(teamId, 1L);
+        for (Human human: players) {
+          long seasonCreated = human.getSeasonCreated();
+          if (round.getSeason() - seasonCreated <= 2 && seasonCreated != 1L)
+            human.setCurrentStatus("Junior");
+          else if (round.getSeason() - seasonCreated <= 6 && seasonCreated != 1L)
+            human.setCurrentStatus("Intermediate");
+          else
+            human.setCurrentStatus("Senior");
+          humanRepository.save(human);
+        }
+      }
+
 
     }
 
@@ -95,6 +198,7 @@ public class CompetitionController {
         List<Team> teams = teamRepository.findAll();
         Random random = new Random();
         for (Team team: teams) {
+          TeamFacilities teamFacilities = _teamFacilitiesRepository.findByTeamId(team.getId());
           int nrPlayers = random.nextInt(18, 23);
           for (int i = 0; i < nrPlayers; i++) {
             String name = NameGenerator.generateName();
@@ -102,14 +206,29 @@ public class CompetitionController {
             player.setTeamId(team.getId());
             player.setName(name);
             player.setTypeId(1L);
+            player.setAge(random.nextInt(23, 30));
+            player.setSeasonCreated(1L);
+            player.setCurrentStatus("Senior");
 
-            int reputation = team.getReputation() / 100;
-            player.setRating(random.nextInt(reputation, reputation * 2));
+            int reputation = (int) teamFacilities.getSeniorTrainingLevel() * 10;
+            player.setRating(random.nextInt(reputation - 20, reputation + 20));
             humanRepository.save(player);
           }
         }
       }
 
+    }
+
+    if (round.getRound() % 3 == 0) {
+      for (long teamId: teamIds) {
+        TeamFacilities teamFacilities = _teamFacilitiesRepository.findByTeamId(teamId);
+        List<Human> players = humanRepository.findAllByTeamIdAndTypeId(teamId, 1L);
+        for (Human player: players) {
+          player = _humanService.trainPlayer(player, teamFacilities);
+          humanRepository.save(player);
+        }
+
+      }
     }
 
     this.simulateRound("1", round.getRound() - 1 + "");
@@ -205,7 +324,7 @@ public class CompetitionController {
     return competitionHistory;
   }
 
-  @GetMapping("/historical/getTeams/{competitionId}/{seasonNumber}")
+  @GetMapping("/historical/getTeams/{seasonNumber}/{competitionId}")
   public List<TeamCompetitionView> getHistoricalTeamDetails(@PathVariable(name = "competitionId") long competitionId, @PathVariable(name = "seasonNumber") long seasonNumber) {
 
     List<CompetitionHistory> teamParticipants = competitionHistoryRepository
