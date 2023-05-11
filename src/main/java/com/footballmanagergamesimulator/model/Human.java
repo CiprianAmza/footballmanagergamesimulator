@@ -46,5 +46,7 @@ public class Human {
     private double rating;
     private double fitness;
     private String morale;
+    private String currentStatus;
+    private long seasonCreated;
 
 }
