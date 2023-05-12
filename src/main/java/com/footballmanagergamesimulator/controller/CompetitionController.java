@@ -127,6 +127,7 @@ public class CompetitionController {
 
     if (round.getRound() > 50) {
       // season reset
+      // todo
 
 
       // save historical values
