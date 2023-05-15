@@ -131,6 +131,8 @@ public class CompetitionController {
 
 
 
+
+
       // save historical values
       Set<Long> competitions = competitionRepository.findAll()
         .stream()
