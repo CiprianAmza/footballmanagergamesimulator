@@ -128,6 +128,7 @@ public class CompetitionController {
     if (round.getRound() > 50) {
       // season reset
 
+      // todo add at season reset transfers
 
 
 
