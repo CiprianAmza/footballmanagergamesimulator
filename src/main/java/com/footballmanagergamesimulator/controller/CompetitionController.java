@@ -128,6 +128,9 @@ public class CompetitionController {
     if (round.getRound() > 50) {
       // season reset
 
+      // transfer when the season begins
+      // there are 4 team strategies: Academy, Buy Young/Sell High, Buy Free Only, Buy Best Players
+
 
 
 
