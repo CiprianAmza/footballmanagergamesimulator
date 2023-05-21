@@ -129,7 +129,7 @@ public class CompetitionController {
       // season reset
 
       // transfer when the season begins
-      // there are 4 team strategies: Academy, Buy Young/Sell High, Buy Free Only, Buy Best Players
+      // there are 5 team strategies: Academy, Buy Young/Sell High, Buy Free Only, Buy Best Players(Young Only), Buy Best Players(Any Age)
 
 
 
