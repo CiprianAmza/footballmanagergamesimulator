@@ -133,6 +133,8 @@ public class CompetitionController {
       // there are 5 team strategies: Academy, Buy Young/Sell High, Buy Free Only, Buy Best Players(Young Only), Buy Best Players(Any Age)
 
 
+      // for the first case, the team should only take players from the academy (like any other club) and offer for sale best 3/5 youngsters + 1 player that is over 23 years old (if available)
+
 
 
 
