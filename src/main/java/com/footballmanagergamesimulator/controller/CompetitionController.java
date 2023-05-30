@@ -126,12 +126,17 @@ public class CompetitionController {
     List<Long> teamIds = List.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L, 10L, 11L, 12L);
 
     if (round.getRound() > 50) {
+      List<Human> playerForTransferMarket = new ArrayList<>();
       // season reset
 
       // transfer when the season begins
       // add another 2
       // there are 5 team strategies: Academy, Buy Young/Sell High, Buy Free Only, Buy Best Players(Young Only), Buy Best Players(Any Age)
+      for (Long teamId: teamIds) {
+        Team team = teamRepository.findById(teamId).orElse(new Team());
+        Long strategyId = team.getStrategy();
 
+      }
 
       // for the first case, the team should only take players from the academy (like any other club) and offer for sale best 3/5 youngsters + 1 player that is over 23 years old (if available)
 

@@ -38,4 +38,6 @@ public class Team {
   private String color2;
   private String border;
 
+  private Long strategy;
+
 }
