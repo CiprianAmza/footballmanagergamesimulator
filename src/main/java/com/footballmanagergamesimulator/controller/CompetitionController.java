@@ -136,6 +136,18 @@ public class CompetitionController {
         Team team = teamRepository.findById(teamId).orElse(new Team());
         Long strategyId = team.getStrategy();
 
+        if (strategyId == 1L) { // Academy strategy
+
+          List<Human> players = humanRepository
+            .findAllByTeamIdAndTypeId(teamId, 1L)
+            .stream()
+            .sorted(Comparator.comparing(Human::getRating).reversed())
+            .collect(Collectors.toList());
+
+
+
+        }
+
       }
 
       // for the first case, the team should only take players from the academy (like any other club) and offer for sale best 3/5 youngsters + 1 player that is over 23 years old (if available)
