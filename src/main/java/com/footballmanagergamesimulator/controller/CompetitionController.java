@@ -144,6 +144,7 @@ public class CompetitionController {
             .sorted(Comparator.comparing(Human::getRating).reversed())
             .collect(Collectors.toList());
 
+          players = players.subList(players.size() - new Random().nextInt(3, 6), players.size());
 
 
         }
