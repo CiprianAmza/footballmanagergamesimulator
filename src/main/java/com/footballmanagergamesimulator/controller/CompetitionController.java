@@ -146,6 +146,9 @@ public class CompetitionController {
 
           players = players.subList(players.size() - new Random().nextInt(3, 6), players.size());
 
+          for (Human player: players)
+            playerForTransferMarket.add(player);
+
 
         }
 
