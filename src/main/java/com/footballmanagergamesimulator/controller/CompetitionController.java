@@ -148,6 +148,16 @@ public class CompetitionController {
 
           for (Human player: players)
             playerForTransferMarket.add(player);
+        }
+        else if (strategyId == 2L) { // Buy Young/ Sell High
+
+          List<Human> players = humanRepository
+            .findAllByTeamIdAndTypeId(teamId, 1L)
+            .stream()
+            .sorted(Comparator.comparing(Human::getRating)) // get the weakest players
+            .collect(Collectors.toList());
+
+          players = players.subList(players.size() - new Random().nextInt(1, 4), players.size());
 
 
         }
