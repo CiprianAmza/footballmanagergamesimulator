@@ -158,6 +158,8 @@ public class CompetitionController {
             .collect(Collectors.toList());
 
           players = players.subList(players.size() - new Random().nextInt(1, 4), players.size());
+        }
+        else if (strategyId == 3L) { // buy free only
 
 
         }
@@ -165,10 +167,6 @@ public class CompetitionController {
       }
 
       // for the first case, the team should only take players from the academy (like any other club) and offer for sale best 3/5 youngsters + 1 player that is over 23 years old (if available)
-
-
-
-
 
       // save historical values
       Set<Long> competitions = competitionRepository.findAll()
