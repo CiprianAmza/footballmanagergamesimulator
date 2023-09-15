@@ -55,29 +55,29 @@ CREATE TABLE team (
   strategy BIGINT
 );
 
-INSERT INTO team (competitionId, stadiumId, historyId, name, totalFinances, transferBudget, salaryBudget, reputation, color1, color2, border)
-VALUES (1, 1, 1, "Shadows", 10000000, 10000000, 500000, 10000, "black", "grey", "25", 2);
-INSERT INTO team (competitionId, stadiumId, historyId, name, totalFinances, transferBudget, salaryBudget, reputation, color1, color2, border)
+INSERT INTO team (competitionId, stadiumId, historyId, name, totalFinances, transferBudget, salaryBudget, reputation, color1, color2, border, strategy)
+VALUES (1, 1, 1, 'Shadows', 10000000, 10000000, 500000, 10000, 'black', 'grey', '25', 2);
+INSERT INTO team (competitionId, stadiumId, historyId, name, totalFinances, transferBudget, salaryBudget, reputation, color1, color2, border, strategy)
 VALUES (1, 1, 1, "Lightnings", 10000000, 10000000, 500000, 9000, "blue", "darkblue", "55", 3);
-INSERT INTO team (competitionId, stadiumId, historyId, name, totalFinances, transferBudget, salaryBudget, reputation, color1, color2, border)
+INSERT INTO team (competitionId, stadiumId, historyId, name, totalFinances, transferBudget, salaryBudget, reputation, color1, color2, border, strategy)
 VALUES (1, 1, 1, "Xenon", 10000000, 10000000, 500000, 9000, "green", "darkgreen", "35", 3);
-INSERT INTO team (competitionId, stadiumId, historyId, name, totalFinances, transferBudget, salaryBudget, reputation, color1, color2, border)
+INSERT INTO team (competitionId, stadiumId, historyId, name, totalFinances, transferBudget, salaryBudget, reputation, color1, color2, border, strategy)
 VALUES (1, 1, 1, "Snow Kids", 10000000, 10000000, 500000, 8600, "white", "blue", "65", 3);
-INSERT INTO team (competitionId, stadiumId, historyId, name, totalFinances, transferBudget, salaryBudget, reputation, color1, color2, border)
+INSERT INTO team (competitionId, stadiumId, historyId, name, totalFinances, transferBudget, salaryBudget, reputation, color1, color2, border, strategy)
 VALUES (1, 1, 1, "Wambas", 10000000, 10000000, 500000, 8000, "yellow", "green", "5", 4);
-INSERT INTO team (competitionId, stadiumId, historyId, name, totalFinances, transferBudget, salaryBudget, reputation, color1, color2, border)
+INSERT INTO team (competitionId, stadiumId, historyId, name, totalFinances, transferBudget, salaryBudget, reputation, color1, color2, border, strategy)
 VALUES (1, 1, 1, "Technoid", 10000000, 10000000, 500000, 7900, "grey", "green", "70", 4);
-INSERT INTO team (competitionId, stadiumId, historyId, name, totalFinances, transferBudget, salaryBudget, reputation, color1, color2, border)
+INSERT INTO team (competitionId, stadiumId, historyId, name, totalFinances, transferBudget, salaryBudget, reputation, color1, color2, border, strategy)
 VALUES (1, 1, 1, "Cyclops", 10000000, 10000000, 500000, 7000, "orange", "black", "45", 5);
-INSERT INTO team (competitionId, stadiumId, historyId, name, totalFinances, transferBudget, salaryBudget, reputation, color1, color2, border)
+INSERT INTO team (competitionId, stadiumId, historyId, name, totalFinances, transferBudget, salaryBudget, reputation, color1, color2, border, strategy)
 VALUES (1, 1, 1, "Red Tigers", 10000000, 10000000, 500000, 6900, "red", "grey", "25", 5);
-INSERT INTO team (competitionId, stadiumId, historyId, name, totalFinances, transferBudget, salaryBudget, reputation, color1, color2, border)
+INSERT INTO team (competitionId, stadiumId, historyId, name, totalFinances, transferBudget, salaryBudget, reputation, color1, color2, border, strategy)
 VALUES (1, 1, 1, "Akillian", 10000000, 10000000, 500000, 6000, "white", "grey", "35", 1);
-INSERT INTO team (competitionId, stadiumId, historyId, name, totalFinances, transferBudget, salaryBudget, reputation, color1, color2, border)
+INSERT INTO team (competitionId, stadiumId, historyId, name, totalFinances, transferBudget, salaryBudget, reputation, color1, color2, border, strategy)
 VALUES (1, 1, 1, "Rykers", 10000000, 10000000, 500000, 7000, "orange", "yellow", "60", 6);
-INSERT INTO team (competitionId, stadiumId, historyId, name, totalFinances, transferBudget, salaryBudget, reputation, color1, color2, border)
+INSERT INTO team (competitionId, stadiumId, historyId, name, totalFinances, transferBudget, salaryBudget, reputation, color1, color2, border, strategy)
 VALUES (1, 1, 1, "Pirates", 10000000, 10000000, 500000, 6700, "blue", "black", "95", 6);
-INSERT INTO team (competitionId, stadiumId, historyId, name, totalFinances, transferBudget, salaryBudget, reputation, color1, color2, border)
+INSERT INTO team (competitionId, stadiumId, historyId, name, totalFinances, transferBudget, salaryBudget, reputation, color1, color2, border, strategy)
 VALUES (1, 1, 1, "Elektras", 10000000, 10000000, 500000, 6500, "pink", "lila", "9", 1);
 
 
