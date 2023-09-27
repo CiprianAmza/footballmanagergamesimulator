@@ -1,9 +1,15 @@
 package com.footballmanagergamesimulator.transfermarket;
 
+import com.footballmanagergamesimulator.model.Team;
+import com.footballmanagergamesimulator.repository.HumanRepository;
+
+import java.util.List;
+
 public abstract class AbstractTransferStrategy implements TransferStrategy {
 
   @Override
-  public void playersToSell() {
+  public List<PlayerTransferView> playersToSell(Team team, HumanRepository humanRepository) {
 
+    return null;
   }
 }
