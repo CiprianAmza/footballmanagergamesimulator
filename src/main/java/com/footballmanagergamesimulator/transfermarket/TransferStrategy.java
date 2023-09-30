@@ -1,6 +1,11 @@
 package com.footballmanagergamesimulator.transfermarket;
 
+import com.footballmanagergamesimulator.model.Team;
+import com.footballmanagergamesimulator.repository.HumanRepository;
+
+import java.util.List;
+
 public interface TransferStrategy {
 
-    void playersToSell();
+    List<PlayerTransferView> playersToSell(Team team, HumanRepository humanRepository);
 }
