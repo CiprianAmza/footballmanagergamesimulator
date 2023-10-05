@@ -8,6 +8,8 @@ import com.footballmanagergamesimulator.model.*;
 import com.footballmanagergamesimulator.nameGenerator.NameGenerator;
 import com.footballmanagergamesimulator.repository.*;
 import com.footballmanagergamesimulator.service.HumanService;
+import com.footballmanagergamesimulator.transfermarket.CompositeTransferStrategy;
+import com.footballmanagergamesimulator.transfermarket.PlayerTransferView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -47,6 +49,9 @@ public class CompetitionController {
   HumanService _humanService;
   @Autowired
   TeamFacilitiesRepository _teamFacilitiesRepository;
+
+  @Autowired
+  CompositeTransferStrategy _compositeTransferStrategy;
 
   @GetMapping("/getBestEleven/{teamId}")
   private List<PlayerView> getBestEleven(@PathVariable(name = "teamId") String teamId){
@@ -123,9 +128,18 @@ public class CompetitionController {
   @Scheduled(fixedDelay = 3000)
   public void play() {
 
-    List<Long> teamIds = List.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L, 10L, 11L, 12L);
+    List<Long> teamIds = List.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L, 10L, 11L, 12L,
+      13L, 14L, 15L, 16L, 17L, 18L, 19L, 20L, 21L, 22L, 23L, 24L);
 
     if (round.getRound() > 50) {
+
+      List<PlayerTransferView> _playersForTransferMarket = new ArrayList<>();
+      for (Long teamId: teamIds) {
+
+        Team team = teamRepository.findById(teamId).orElse(new Team());
+        _playersForTransferMarket.addAll(_compositeTransferStrategy.playersToSell(team, humanRepository));
+      }
+
       List<Human> playerForTransferMarket = new ArrayList<>();
       // season reset
 
@@ -158,6 +172,9 @@ public class CompetitionController {
             .collect(Collectors.toList());
 
           players = players.subList(players.size() - new Random().nextInt(1, 4), players.size());
+
+          for (Human player: players)
+            playerForTransferMarket.add(player);
         }
         else if (strategyId == 3L) { // buy free only
 
@@ -198,15 +215,15 @@ public class CompetitionController {
       for (Long teamId: teamIds) {
         // championship
         CompetitionTeamInfo competitionTeamInfo = new CompetitionTeamInfo();
-        competitionTeamInfo.setCompetitionId(1L);
+        competitionTeamInfo.setCompetitionId(teamId < 13 ? 1L : 3L);
         competitionTeamInfo.setRound(1);
         competitionTeamInfo.setTeamId(teamId);
         competitionTeamInfoRepository.save(competitionTeamInfo);
 
         // cup
         CompetitionTeamInfo cup = new CompetitionTeamInfo();
-        cup.setCompetitionId(2L);
-        cup.setRound(teamId < 5 ? 2: 1);
+        cup.setCompetitionId(teamId < 13 ? 2L : 4L);
+        cup.setRound( ((teamId % 12) < 5 && (teamId % 12) != 0) ? 2 : 1);
         cup.setTeamId(teamId);
         competitionTeamInfoRepository.save(cup);
 
@@ -231,31 +248,33 @@ public class CompetitionController {
 
     if (round.getRound() == 1) {
 
-      this.getFixturesForRound("1", "1");
+      for (String competitionId : List.of("1", "3")) {
 
-      if (round.getSeason() == 1) {
-        List<Team> teams = teamRepository.findAll();
-        Random random = new Random();
-        for (Team team: teams) {
-          TeamFacilities teamFacilities = _teamFacilitiesRepository.findByTeamId(team.getId());
-          int nrPlayers = random.nextInt(18, 23);
-          for (int i = 0; i < nrPlayers; i++) {
-            String name = NameGenerator.generateName();
-            Human player = new Human();
-            player.setTeamId(team.getId());
-            player.setName(name);
-            player.setTypeId(1L);
-            player.setAge(random.nextInt(23, 30));
-            player.setSeasonCreated(1L);
-            player.setCurrentStatus("Senior");
+        this.getFixturesForRound(competitionId, "1");
 
-            int reputation = (int) teamFacilities.getSeniorTrainingLevel() * 10;
-            player.setRating(random.nextInt(reputation - 20, reputation + 20));
-            humanRepository.save(player);
+        if (round.getSeason() == 1) {
+          List<Team> teams = teamRepository.findAll();
+          Random random = new Random();
+          for (Team team : teams) {
+            TeamFacilities teamFacilities = _teamFacilitiesRepository.findByTeamId(team.getId());
+            int nrPlayers = random.nextInt(18, 23);
+            for (int i = 0; i < nrPlayers; i++) {
+              String name = NameGenerator.generateName();
+              Human player = new Human();
+              player.setTeamId(team.getId());
+              player.setName(name);
+              player.setTypeId(1L);
+              player.setAge(random.nextInt(23, 30));
+              player.setSeasonCreated(1L);
+              player.setCurrentStatus("Senior");
+
+              int reputation = (int) teamFacilities.getSeniorTrainingLevel() * 10;
+              player.setRating(random.nextInt(reputation - 20, reputation + 20));
+              humanRepository.save(player);
+            }
           }
         }
       }
-
     }
 
     if (round.getRound() % 3 == 0) {
@@ -270,23 +289,28 @@ public class CompetitionController {
       }
     }
 
-    this.simulateRound("1", round.getRound() - 1 + "");
+    for (String competitionId : List.of("1", "3"))
+      this.simulateRound(competitionId, round.getRound() - 1 + "");
 
-    if (round.getRound() == 5) {
-      this.getFixturesForRound("2", "1");
-      this.simulateRound("2", "1");
-    }
-    if (round.getRound() == 10) {
-      this.getFixturesForRound("2", "2");
-      this.simulateRound("2", "2");
-    }
-    if (round.getRound() == 20) {
-      this.getFixturesForRound("2", "3");
-      this.simulateRound("2", "3");
-    }
-    if (round.getRound() == 35) {
-      this.getFixturesForRound("2", "4");
-      this.simulateRound("2", "4");
+    for (String competitionId : List.of("2", "4")) {
+
+      if (round.getRound() == 5) {
+        this.getFixturesForRound(competitionId, "1");
+        this.simulateRound(competitionId, "1");
+      }
+      if (round.getRound() == 10) {
+        this.getFixturesForRound(competitionId, "2");
+        this.simulateRound(competitionId, "2");
+      }
+      if (round.getRound() == 20) {
+        this.getFixturesForRound(competitionId, "3");
+        this.simulateRound(competitionId, "3");
+      }
+      if (round.getRound() == 35) {
+        this.getFixturesForRound(competitionId, "4");
+        this.simulateRound(competitionId, "4");
+      }
+
     }
     round.setRound(round.getRound() + 1);
   }
@@ -397,8 +421,11 @@ public class CompetitionController {
       TeamCompetitionDetail teamCompetitionDetail = teamCompetitionDetailRepository.findTeamCompetitionDetailByTeamIdAndCompetitionId(teamId, competitionId);
       Team team = teamRepository.findById(teamId).orElseGet(null);
 
-      if (team == null || teamCompetitionDetail == null)
-        throw new RuntimeException("No team found for competitionId " + competitionId + " and teamId " + teamId);
+      if (team == null || teamCompetitionDetail == null) {
+        teamCompetitionDetail = new TeamCompetitionDetail();
+        teamCompetitionDetail.setTeamId(teamId);
+        teamCompetitionDetail.setCompetitionId(competitionId);
+      }
 
       TeamCompetitionView teamCompetitionView = adaptTeam(team, teamCompetitionDetail);
       teamCompetitionViews.add(teamCompetitionView);
@@ -547,7 +574,7 @@ public class CompetitionController {
     List<Long> participants = this.getParticipants(competitionId, roundId);
 
     // we need to get matches and to add them into CompetitionTeamInfoMatch
-    if (_competitionId == 1L) {
+    if (_competitionId == 1L || _competitionId == 3L) {
       List<List<List<Long>>> schedule = roundRobin.getSchedule(participants);
       int currentRound = 1;
 
@@ -595,7 +622,6 @@ public class CompetitionController {
     long _roundId = Long.parseLong(roundId);
     long nextRound = getNextRound(_roundId);
 
-
     Random random = new Random();
     List<CompetitionTeamInfoMatch> matches = competitionTeamInfoMatchRepository
       .findAll();
@@ -618,10 +644,8 @@ public class CompetitionController {
       int limitA = limits.get(0);
       int limitB = limits.get(1);
 
-
       teamScore1 = random.nextInt(limitA);
       teamScore2 = random.nextInt(limitB);
-
 
       if (_competitionId == 2L) {
         while (teamScore2 == teamScore1)
@@ -660,7 +684,7 @@ public class CompetitionController {
     TeamCompetitionDetail team = teamCompetitionDetailRepository.findTeamCompetitionDetailByTeamIdAndCompetitionId(teamId, competitionId);
     if (team == null) {
       team = new TeamCompetitionDetail();
-      team.setId(teamId);
+      team.setTeamId(teamId);
     }
 
     team.setCompetitionId(competitionId);
@@ -682,6 +706,9 @@ public class CompetitionController {
       team.setLoses(team.getLoses() + 1);
     }
     team.setGames(team.getGames() + 1);
+
+    if (team.getForm().length() > 5)
+      team.setForm(team.getForm().substring(team.getForm().length() - 5));
 
     teamCompetitionDetailRepository.save(team);
   }
