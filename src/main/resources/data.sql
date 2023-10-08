@@ -312,28 +312,28 @@ CREATE TABLE teamfacilities (
   seniorTrainingLevel INT
 );
 
-INSERT INTO teamfacilities (teamId, youthAcademyLevel, youthTrainingLevel, seniorTrainingLevel) VALUES (1, 10, 20, 20);
+INSERT INTO teamfacilities (teamId, youthAcademyLevel, youthTrainingLevel, seniorTrainingLevel) VALUES (1, 16, 20, 20);
 INSERT INTO teamfacilities (teamId, youthAcademyLevel, youthTrainingLevel, seniorTrainingLevel) VALUES (2, 15, 20, 18);
 INSERT INTO teamfacilities (teamId, youthAcademyLevel, youthTrainingLevel, seniorTrainingLevel) VALUES (3, 15, 20, 18);
 INSERT INTO teamfacilities (teamId, youthAcademyLevel, youthTrainingLevel, seniorTrainingLevel) VALUES (4, 10, 18, 16);
 INSERT INTO teamfacilities (teamId, youthAcademyLevel, youthTrainingLevel, seniorTrainingLevel) VALUES (5, 10, 16, 16);
-INSERT INTO teamfacilities (teamId, youthAcademyLevel, youthTrainingLevel, seniorTrainingLevel) VALUES (6, 20, 15, 15);
+INSERT INTO teamfacilities (teamId, youthAcademyLevel, youthTrainingLevel, seniorTrainingLevel) VALUES (6, 10, 15, 15);
 INSERT INTO teamfacilities (teamId, youthAcademyLevel, youthTrainingLevel, seniorTrainingLevel) VALUES (7, 10, 12, 14);
 INSERT INTO teamfacilities (teamId, youthAcademyLevel, youthTrainingLevel, seniorTrainingLevel) VALUES (8, 10, 14, 13);
-INSERT INTO teamfacilities (teamId, youthAcademyLevel, youthTrainingLevel, seniorTrainingLevel) VALUES (9, 20, 12, 12);
+INSERT INTO teamfacilities (teamId, youthAcademyLevel, youthTrainingLevel, seniorTrainingLevel) VALUES (9, 10, 12, 12);
 INSERT INTO teamfacilities (teamId, youthAcademyLevel, youthTrainingLevel, seniorTrainingLevel) VALUES (10, 8, 12, 10);
 INSERT INTO teamfacilities (teamId, youthAcademyLevel, youthTrainingLevel, seniorTrainingLevel) VALUES (11, 7, 11, 9);
 INSERT INTO teamfacilities (teamId, youthAcademyLevel, youthTrainingLevel, seniorTrainingLevel) VALUES (12, 6, 10, 9);
 
-INSERT INTO teamfacilities (teamId, youthAcademyLevel, youthTrainingLevel, seniorTrainingLevel) VALUES (13, 10, 20, 20);
-INSERT INTO teamfacilities (teamId, youthAcademyLevel, youthTrainingLevel, seniorTrainingLevel) VALUES (14, 15, 20, 18);
+INSERT INTO teamfacilities (teamId, youthAcademyLevel, youthTrainingLevel, seniorTrainingLevel) VALUES (13, 20, 20, 20);
+INSERT INTO teamfacilities (teamId, youthAcademyLevel, youthTrainingLevel, seniorTrainingLevel) VALUES (14, 20, 20, 20);
 INSERT INTO teamfacilities (teamId, youthAcademyLevel, youthTrainingLevel, seniorTrainingLevel) VALUES (15, 15, 20, 18);
 INSERT INTO teamfacilities (teamId, youthAcademyLevel, youthTrainingLevel, seniorTrainingLevel) VALUES (16, 10, 18, 16);
 INSERT INTO teamfacilities (teamId, youthAcademyLevel, youthTrainingLevel, seniorTrainingLevel) VALUES (17, 10, 16, 16);
-INSERT INTO teamfacilities (teamId, youthAcademyLevel, youthTrainingLevel, seniorTrainingLevel) VALUES (18, 20, 15, 15);
+INSERT INTO teamfacilities (teamId, youthAcademyLevel, youthTrainingLevel, seniorTrainingLevel) VALUES (18, 10, 15, 15);
 INSERT INTO teamfacilities (teamId, youthAcademyLevel, youthTrainingLevel, seniorTrainingLevel) VALUES (19, 10, 12, 14);
 INSERT INTO teamfacilities (teamId, youthAcademyLevel, youthTrainingLevel, seniorTrainingLevel) VALUES (20, 10, 14, 13);
-INSERT INTO teamfacilities (teamId, youthAcademyLevel, youthTrainingLevel, seniorTrainingLevel) VALUES (21, 20, 12, 12);
+INSERT INTO teamfacilities (teamId, youthAcademyLevel, youthTrainingLevel, seniorTrainingLevel) VALUES (21, 10, 12, 12);
 INSERT INTO teamfacilities (teamId, youthAcademyLevel, youthTrainingLevel, seniorTrainingLevel) VALUES (22, 8, 12, 10);
 INSERT INTO teamfacilities (teamId, youthAcademyLevel, youthTrainingLevel, seniorTrainingLevel) VALUES (23, 7, 11, 9);
 INSERT INTO teamfacilities (teamId, youthAcademyLevel, youthTrainingLevel, seniorTrainingLevel) VALUES (24, 6, 10, 9);
