@@ -18,7 +18,6 @@ INSERT INTO humantype (name) VALUES ("Agent");
 
 
 
-
 -- competition values
 
 DROP TABLE IF EXISTS competition;
@@ -33,7 +32,8 @@ INSERT INTO competition (nationId, prizesId, name) VALUES (1, 1, "Gallactick Foo
 INSERT INTO competition (nationId, prizesId, name) VALUES (1, 2, "Gallactick Football Cup");
 INSERT INTO competition (nationId, prizesId, name) VALUES (3, 1, "Khess First League");
 INSERT INTO competition (nationId, prizesId, name) VALUES (4, 2, "Khess Cup");
-
+INSERT INTO competition (nationId, prizesId, name) VALUES (5, 3, 'Gallactick Football Super Cup');
+INSERT INTO competition (nationId, prizesId, name) VALUES (6, 3, 'Khess Super Cup');
 
 
 
