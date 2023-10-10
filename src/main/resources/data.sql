@@ -28,12 +28,12 @@ CREATE TABLE competition(
   name VARCHAR(255)
 );
 
-INSERT INTO competition (nationId, prizesId, name) VALUES (1, 1, "Gallactick Football First League");
-INSERT INTO competition (nationId, prizesId, name) VALUES (1, 2, "Gallactick Football Cup");
-INSERT INTO competition (nationId, prizesId, name) VALUES (3, 1, "Khess First League");
-INSERT INTO competition (nationId, prizesId, name) VALUES (4, 2, "Khess Cup");
-INSERT INTO competition (nationId, prizesId, name) VALUES (5, 3, 'Gallactick Football Super Cup');
-INSERT INTO competition (nationId, prizesId, name) VALUES (6, 3, 'Khess Super Cup');
+INSERT INTO competition (nationId, prizesId, name, typeId) VALUES (1, 1, "Gallactick Football First League", 1);
+INSERT INTO competition (nationId, prizesId, name, typeId) VALUES (1, 2, "Gallactick Football Cup", 2);
+INSERT INTO competition (nationId, prizesId, name, typeId) VALUES (3, 1, "Khess First League", 1);
+INSERT INTO competition (nationId, prizesId, name, typeId) VALUES (4, 2, "Khess Cup", 2);
+INSERT INTO competition (nationId, prizesId, name, typeId) VALUES (5, 3, 'Gallactick Football Super Cup', 3);
+INSERT INTO competition (nationId, prizesId, name, typeId) VALUES (6, 3, 'Khess Super Cup', 3);
 
 
 
