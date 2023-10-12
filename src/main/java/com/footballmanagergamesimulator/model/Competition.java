@@ -19,6 +19,7 @@ public class Competition {
    */
   private long nationId;
   private long prizesId;
+  private long typeId;
 
   /**
    * General Information
