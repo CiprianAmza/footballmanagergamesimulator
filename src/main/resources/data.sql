@@ -16,7 +16,12 @@ INSERT INTO humantype (name) VALUES ("Scout");
 INSERT INTO humantype (name) VALUES ("Agent");
 
 
-
+DROP TABLE IF EXISTS competitiontype;
+CREATE TABLE competitiontype(
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  typeId BIGINT,
+  typeName VARCHAR(255)
+);
 
 -- competition values
 
