@@ -27,5 +27,9 @@ public class PlayerSkills {
   private String position;
   private long skill1;
   private String skill1Name;
+  private long skill2;
+  private String skill2Name;
+  private long skill3;
+  private String skill3Name;
 
 }
