@@ -20,6 +20,7 @@ public class CompositeTransferStrategy implements TransferStrategy {
 
     _transferStrategies.put(TransferStrategyUtil.TRANSFER_STRATEGY_ACADEMY, new AcademyTransferStrategy());
     _transferStrategies.put(TransferStrategyUtil.TRANSFER_STRATEGY_BUY_YOUNG_SELL_HIGH, new BuyYoungSellHighTransferStrategy());
+    _transferStrategies.put(TransferStrategyUtil.TRANSFER_STRATEGY_BUY_FREE_SELL_HIGH, new BuyFreeSellHighTransferStrategy());
   }
 
   @Override
