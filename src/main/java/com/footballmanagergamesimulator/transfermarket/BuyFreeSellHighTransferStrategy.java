@@ -18,7 +18,7 @@ public class BuyFreeSellHighTransferStrategy extends AbstractTransferStrategy {
     List<Human> players = humanRepository
       .findAllByTeamIdAndTypeId(team.getId(), 1L)
       .stream()
-      .sorted(Comparator.comparing(Human::getRating).reversed())
+      .sorted(Comparator.comparing(Human::getAge).reversed())
       .collect(Collectors.toList());
 
     List<Human> playersForSale =
