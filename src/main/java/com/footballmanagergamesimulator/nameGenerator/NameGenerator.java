@@ -5,6 +5,7 @@ import java.util.Random;
 
 public class NameGenerator {
 
+  // TODO: NameGenerator should handle different country types, probably Factory pattern would fit the most
   private static List<String> SUFFIXES = List.of("ius", "us", "sus", "sius");
   private static List<String> MIDDLE = List.of("p", "n", "an", "rp");
   private static List<String> VOWELS = List.of("a", "e", "i", "o", "u");
@@ -19,7 +20,6 @@ public class NameGenerator {
     name.append(VOWELS.get(random.nextInt(VOWELS.size())));
     name.append(MIDDLE.get(random.nextInt(MIDDLE.size())));
     name.append(SUFFIXES.get(random.nextInt(SUFFIXES.size())));
-
 
     return name.toString();
   }
