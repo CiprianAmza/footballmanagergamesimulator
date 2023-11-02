@@ -177,6 +177,13 @@ public class CompetitionController {
         }
         else if (strategyId == 3L) { // buy free only
 
+          List<Human> players = humanRepository
+            .findAllByTeamIdAndTypeId(teamId, 1L)
+            .stream()
+            .sorted(Comparator.comparing(Human::getRating)) // get the weakest players
+            .collect(Collectors.toList());
+
+          players = players.subList(players.size() - new Random().nextInt(1, 4), players.size());
 
         }
 
