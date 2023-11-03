@@ -159,8 +159,7 @@ public class CompetitionController {
 
           players = players.subList(players.size() - new Random().nextInt(3, 6), players.size());
 
-          for (Human player: players)
-            playerForTransferMarket.add(player);
+          playerForTransferMarket.addAll(players);
         }
         else if (strategyId == 2L) { // Buy Young/ Sell High
 
@@ -172,8 +171,7 @@ public class CompetitionController {
 
           players = players.subList(players.size() - new Random().nextInt(1, 4), players.size());
 
-          for (Human player: players)
-            playerForTransferMarket.add(player);
+          playerForTransferMarket.addAll(players);
         }
         else if (strategyId == 3L) { // buy free only
 
