@@ -10,6 +10,7 @@ import com.footballmanagergamesimulator.repository.*;
 import com.footballmanagergamesimulator.service.HumanService;
 import com.footballmanagergamesimulator.transfermarket.CompositeTransferStrategy;
 import com.footballmanagergamesimulator.transfermarket.PlayerTransferView;
+import com.footballmanagergamesimulator.util.TypeNames;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -164,7 +165,7 @@ public class CompetitionController {
         else if (strategyId == 2L) { // Buy Young/ Sell High
 
           List<Human> players = humanRepository
-            .findAllByTeamIdAndTypeId(teamId, 1L)
+            .findAllByTeamIdAndTypeId(teamId, TypeNames.TEAM_TYPE)
             .stream()
             .sorted(Comparator.comparing(Human::getRating)) // get the weakest players
             .collect(Collectors.toList());
@@ -176,7 +177,7 @@ public class CompetitionController {
         else if (strategyId == 3L) { // buy free only
 
           List<Human> players = humanRepository
-            .findAllByTeamIdAndTypeId(teamId, 1L)
+            .findAllByTeamIdAndTypeId(teamId, TypeNames.TEAM_TYPE)
             .stream()
             .sorted(Comparator.comparing(Human::getRating)) // get the weakest players
             .collect(Collectors.toList());
