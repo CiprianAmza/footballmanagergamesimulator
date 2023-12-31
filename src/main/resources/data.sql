@@ -30,7 +30,8 @@ CREATE TABLE competition(
   id BIGINT AUTO_INCREMENT PRIMARY KEY,
   nationId BIGINT,
   prizesId BIGINT,
-  name VARCHAR(255)
+  name VARCHAR(255),
+  typeId BIGINT
 );
 
 INSERT INTO competition (nationId, prizesId, name, typeId) VALUES (1, 1, "Gallactick Football First League", 1);
