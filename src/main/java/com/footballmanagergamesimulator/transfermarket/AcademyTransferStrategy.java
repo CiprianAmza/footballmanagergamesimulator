@@ -29,7 +29,7 @@ public class AcademyTransferStrategy extends AbstractTransferStrategy {
     public List<PlayerTransferView> fromHumanToPlayerTransferView(Team team, List<Human> players) {
 
       return players.stream()
-        .map(player -> new PlayerTransferView(player.getId(), team.getId(), player.getRating()))
+        .map(player -> new PlayerTransferView(player.getId(), team.getId(), player.getRating(), player.getPosition()))
         .collect(Collectors.toList());
     }
 }
