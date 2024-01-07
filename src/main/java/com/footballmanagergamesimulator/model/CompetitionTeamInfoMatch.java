@@ -25,4 +25,5 @@ public class CompetitionTeamInfoMatch {
    * CompetitionTeam information
    */
   private long round;
+  private String seasonNumber;
 }

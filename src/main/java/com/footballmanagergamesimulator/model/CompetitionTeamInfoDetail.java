@@ -29,6 +29,6 @@ public class CompetitionTeamInfoDetail {
   private long roundId;
   private String teamName1;
   private String teamName2;
-
+  private long seasonNumber;
 
 }

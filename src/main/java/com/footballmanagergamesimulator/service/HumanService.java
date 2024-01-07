@@ -10,6 +10,8 @@ import com.footballmanagergamesimulator.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -95,6 +97,7 @@ public class HumanService {
       human.setName(NameGenerator.generateName());
       human.setAge(random.nextInt(15, 19));
       human.setRating(random.nextInt(ratingAround - 20, ratingAround + 20));
+      human.setPosition(generatePosition());
       human.setPotentialAbility((int) (human.getRating() + random.nextInt(30)));
       human.setTeamId(teamId);
       human.setTypeId(1);
@@ -103,4 +106,29 @@ public class HumanService {
       return human;
     }
 
+    private String generatePosition() {
+
+      List<String> positions = new ArrayList<>();
+      int i;
+      for (i = 0; i < 5; i++)
+        positions.add("GK");
+      for (i = 0; i < 5; i++)
+        positions.add("DL");
+      for (i = 0; i < 5; i++)
+        positions.add("DR");
+      for (i = 0; i < 10; i++)
+        positions.add("DC");
+      for (i = 0; i < 5; i++)
+        positions.add("MR");
+      for (i = 0; i < 5; i++)
+        positions.add("ML");
+      for (i = 0; i < 10; i++)
+        positions.add("MC");
+      for (i = 0; i < 10; i++)
+        positions.add("ST");
+
+      Collections.shuffle(positions);
+
+      return positions.get(0);
+    }
 }
