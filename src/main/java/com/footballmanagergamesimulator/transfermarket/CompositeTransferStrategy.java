@@ -21,16 +21,18 @@ public class CompositeTransferStrategy implements TransferStrategy {
     _transferStrategies.put(TransferStrategyUtil.TRANSFER_STRATEGY_ACADEMY, new AcademyTransferStrategy());
     _transferStrategies.put(TransferStrategyUtil.TRANSFER_STRATEGY_BUY_YOUNG_SELL_HIGH, new BuyYoungSellHighTransferStrategy());
     _transferStrategies.put(TransferStrategyUtil.TRANSFER_STRATEGY_BUY_FREE_SELL_HIGH, new BuyFreeSellHighTransferStrategy());
+    _transferStrategies.put(TransferStrategyUtil.TRANSFER_STRATEGY_BUY_MID_SELL_MID, new BuyMidSellMidTransferStrategy());
+    _transferStrategies.put(TransferStrategyUtil.TRANSFER_STRATEGY_BUY_TOP_SELL_WORST, new BuyTopSellWorstTransferStrategy());
   }
 
   @Override
-  public List<PlayerTransferView> playersToSell(Team team, HumanRepository humanRepository) {
+  public List<PlayerTransferView> playersToSell(Team team, HumanRepository humanRepository, HashMap<String, Integer> minimumPositionNeeded) {
 
     TransferStrategy transferStrategy = _transferStrategies.get(team.getStrategy());
 
     if (transferStrategy == null) // if there is no available strategy
       return new ArrayList<>(); // then no players will be sold
 
-    return transferStrategy.playersToSell(team, humanRepository);
+    return transferStrategy.playersToSell(team, humanRepository, minimumPositionNeeded);
   }
 }

@@ -7,11 +7,14 @@ public class PlayerTransferView {
   private double rating;
   private String position;
 
-  public PlayerTransferView(long playerId, long teamId, double rating, String position) {
+  private long age;
+
+  public PlayerTransferView(long playerId, long teamId, double rating, String position, long age) {
     this.playerId = playerId;
     this.teamId = teamId;
     this.rating = rating;
     this.position = position;
+    this.age = age;
   }
 
   public long getPlayerId() {
@@ -44,5 +47,13 @@ public class PlayerTransferView {
 
   public void setPosition(String position) {
     this.position = position;
+  }
+
+  public long getAge() {
+    return age;
+  }
+
+  public void setAge(long age) {
+    this.age = age;
   }
 }

@@ -54,10 +54,29 @@ public class CompetitionController {
   @Autowired
   CompositeTransferStrategy _compositeTransferStrategy;
 
+
+  @GetMapping("/getPlayers/{teamId}")
+  private List<PlayerView> getPlayers(@PathVariable(name = "teamId") String teamId){
+
+    long _teamId = Long.parseLong(teamId);
+
+    Team team = teamRepository.findById(_teamId).orElse(null);
+    if (team == null)
+      throw new RuntimeException("Team not found.");
+
+    List<Human> getAllPlayers = humanRepository.findAllByTeamIdAndTypeId(Long.parseLong(teamId), TypeNames.HUMAN_TYPE);
+
+    List<PlayerView> allPlayers =  getAllPlayers
+      .stream()
+      .map(player -> adaptPlayer(player, team))
+      .toList();
+
+    return allPlayers;
+  }
   @GetMapping("/getBestEleven/{teamId}")
   private List<PlayerView> getBestEleven(@PathVariable(name = "teamId") String teamId){
 
-    long _teamId = Long.valueOf(teamId);
+    long _teamId = Long.parseLong(teamId);
 
     Team team = teamRepository.findById(_teamId).orElse(null);
     if (team == null)
@@ -98,7 +117,7 @@ public class CompetitionController {
   @GetMapping("/getTeamTotalSkills/{competitionId}")
   private List<Pair<String, Double>> getTeamTotalSkills(@PathVariable(name = "competitionId") String competitionId) {
 
-    long _competitionId = Long.valueOf(competitionId);
+    long _competitionId = Long.parseLong(competitionId);
 
     List<Pair<String, Double>> teamTotalSkills = new ArrayList<>();
     for (Team team: teamRepository.findAllByCompetitionId(_competitionId)) {
@@ -126,69 +145,68 @@ public class CompetitionController {
   }
 
   @GetMapping("/play")
-  @Scheduled(fixedDelay = 3000)
+  @Scheduled(fixedDelay = 300)
   public void play() {
 
     List<Long> teamIds = getAllTeams();
 
+
     if (round.getRound() > 50) {
 
-      List<PlayerTransferView> _playersForTransferMarket = new ArrayList<>();
+      // GF
+      List<TeamCompetitionDetail> teamCompetitionDetails = teamCompetitionDetailRepository.findAll();
+      for (int id = 1; id <= 3; id += 2) {
+        int finalId = id;
+        List<TeamCompetitionDetail> teamCompetitionDetailList = teamCompetitionDetails.stream()
+          .filter(detail -> detail.getCompetitionId() == finalId)
+          .sorted((o1, o2) -> {
+            if (o1.getPoints() != o2.getPoints())
+              return o1.getPoints() < o2.getPoints() ? 1 : -1;
+            if (o1.getGoalDifference() != o2.getGoalDifference())
+              return o1.getGoalDifference() < o2.getGoalDifference() ? 1 : -1;
+            if (o1.getGoalsFor() != o2.getGoalsFor())
+              return o1.getGoalsFor() < o2.getGoalsFor() ? 1 : -1;
+            return 0;
+          }).toList();
+
+        int index = 1;
+
+        for (TeamCompetitionDetail teamCompetitionDetail: teamCompetitionDetailList) {
+
+          CompetitionTeamInfo competitionTeamInfo = new CompetitionTeamInfo();
+          competitionTeamInfo.setCompetitionId(id);
+          competitionTeamInfo.setSeasonNumber(Long.parseLong(getCurrentSeason()) + 1);
+          competitionTeamInfo.setRound(1L);
+          competitionTeamInfo.setTeamId(teamCompetitionDetail.getTeamId());
+
+          competitionTeamInfoRepository.save(competitionTeamInfo);
+
+          CompetitionTeamInfo competitionTeamInfoCup = new CompetitionTeamInfo();
+          competitionTeamInfoCup.setCompetitionId(id+1);
+          competitionTeamInfoCup.setSeasonNumber(Long.parseLong(getCurrentSeason()) + 1);
+          competitionTeamInfoCup.setRound(index <= 4 ? 2L : 1L);
+          competitionTeamInfoCup.setTeamId(teamCompetitionDetail.getTeamId());
+
+          competitionTeamInfoRepository.save(competitionTeamInfoCup);
+
+          index++;
+        }
+      }
+
+      List<PlayerTransferView> playersForTransferMarket = new ArrayList<>();
       for (Long teamId: teamIds) {
 
         Team team = teamRepository.findById(teamId).orElse(new Team());
-        _playersForTransferMarket.addAll(_compositeTransferStrategy.playersToSell(team, humanRepository));
+        playersForTransferMarket.addAll(_compositeTransferStrategy.playersToSell(team, humanRepository, getMinimumPositionNeeded()));
       }
 
-      List<Human> playerForTransferMarket = new ArrayList<>();
-      // season reset
-
-      // transfer when the season begins
-      // add another 2
-      // there are 5 team strategies: Academy, Buy Young/Sell High, Buy Free Only, Buy Best Players(Young Only), Buy Best Players(Any Age)
-      for (Long teamId: teamIds) {
-        Team team = teamRepository.findById(teamId).orElse(new Team());
-        Long strategyId = team.getStrategy();
-
-        if (strategyId == 1L) { // Academy strategy
-
-          List<Human> players = humanRepository
-            .findAllByTeamIdAndTypeId(teamId, 1L)
-            .stream()
-            .sorted(Comparator.comparing(Human::getRating).reversed())
-            .collect(Collectors.toList());
-
-          players = players.subList(players.size() - new Random().nextInt(3, 6), players.size());
-
-          playerForTransferMarket.addAll(players);
-        }
-        else if (strategyId == 2L) { // Buy Young/ Sell High
-
-          List<Human> players = humanRepository
-            .findAllByTeamIdAndTypeId(teamId, TypeNames.TEAM_TYPE)
-            .stream()
-            .sorted(Comparator.comparing(Human::getRating)) // get the weakest players
-            .collect(Collectors.toList());
-
-          players = players.subList(players.size() - new Random().nextInt(1, 4), players.size());
-
-          playerForTransferMarket.addAll(players);
-        }
-        else if (strategyId == 3L) { // buy free only
-
-          List<Human> players = humanRepository
-            .findAllByTeamIdAndTypeId(teamId, TypeNames.TEAM_TYPE)
-            .stream()
-            .sorted(Comparator.comparing(Human::getRating)) // get the weakest players
-            .collect(Collectors.toList());
-
-          players = players.subList(players.size() - new Random().nextInt(1, 4), players.size());
-
-        }
-
+      HashMap<String, List<PlayerTransferView>> transferMarket = new HashMap<>();
+      for (PlayerTransferView playerTransferView : playersForTransferMarket) {
+        if (transferMarket.containsKey(playerTransferView.getPosition()))
+          transferMarket.get(playerTransferView.getPosition()).add(playerTransferView);
+        else
+          transferMarket.put(playerTransferView.getPosition(), new ArrayList<>(List.of(playerTransferView)));
       }
-
-      // for the first case, the team should only take players from the academy (like any other club) and offer for sale best 3/5 youngsters + 1 player that is over 23 years old (if available)
 
       // save historical values
       Set<Long> competitions = competitionRepository.findAll()
@@ -215,27 +233,8 @@ public class CompetitionController {
         _humanService.addRegens(teamFacilities, teamId);
       }
 
-      // reinitialize CompetitionTeamInfo
-
-      for (Long teamId: teamIds) {
-        // championship
-        CompetitionTeamInfo competitionTeamInfo = new CompetitionTeamInfo();
-        competitionTeamInfo.setCompetitionId(teamId < 13 ? 1L : 3L);
-        competitionTeamInfo.setRound(1);
-        competitionTeamInfo.setTeamId(teamId);
-        competitionTeamInfoRepository.save(competitionTeamInfo);
-
-        // cup
-        CompetitionTeamInfo cup = new CompetitionTeamInfo();
-        cup.setCompetitionId(teamId < 13 ? 2L : 4L);
-        cup.setRound( ((teamId % 12) < 5 && (teamId % 12) != 0) ? 2 : 1);
-        cup.setTeamId(teamId);
-        competitionTeamInfoRepository.save(cup);
-
-      }
-
       for (long teamId: teamIds) {
-        List<Human> players = humanRepository.findAllByTeamIdAndTypeId(teamId, 1L);
+        List<Human> players = humanRepository.findAllByTeamIdAndTypeId(teamId, TypeNames.HUMAN_TYPE);
         for (Human human: players) {
           long seasonCreated = human.getSeasonCreated();
           if (round.getSeason() - seasonCreated <= 2 && seasonCreated != 1L)
@@ -244,39 +243,54 @@ public class CompetitionController {
             human.setCurrentStatus("Intermediate");
           else
             human.setCurrentStatus("Senior");
+          human.setTransferValue(calculateTransferValue(human.getAge(), human.getPosition(), human.getRating()));
           humanRepository.save(human);
         }
       }
-
-
     }
 
     if (round.getRound() == 1) {
 
-      for (String competitionId : List.of("1", "3")) {
-
+      for (String competitionId : List.of("1", "3"))
         this.getFixturesForRound(competitionId, "1");
 
-        if (round.getSeason() == 1) {
-          List<Team> teams = teamRepository.findAll();
-          Random random = new Random();
-          for (Team team : teams) {
-            TeamFacilities teamFacilities = _teamFacilitiesRepository.findByTeamId(team.getId());
-            int nrPlayers = random.nextInt(18, 23);
-            for (int i = 0; i < nrPlayers; i++) {
-              String name = NameGenerator.generateName();
-              Human player = new Human();
-              player.setTeamId(team.getId());
-              player.setName(name);
-              player.setTypeId(1L);
-              player.setAge(random.nextInt(23, 30));
-              player.setSeasonCreated(1L);
-              player.setCurrentStatus("Senior");
+      if (round.getSeason() == 1) {
+        List<Team> teams = teamRepository.findAll();
+        Random random = new Random();
+        for (Team team : teams) {
+          TeamFacilities teamFacilities = _teamFacilitiesRepository.findByTeamId(team.getId());
+          int nrPlayers = 22;
+          for (int i = 0; i < nrPlayers; i++) {
+            String name = NameGenerator.generateName();
+            Human player = new Human();
+            player.setTeamId(team.getId());
+            player.setName(name);
+            player.setTypeId(1L);
+            if (i < 2)
+              player.setPosition("GK");
+            else if (i < 4)
+              player.setPosition("DL");
+            else if (i < 6)
+              player.setPosition("DR");
+            else if (i < 10)
+              player.setPosition("DC");
+            else if (i < 12)
+              player.setPosition("ML");
+            else if (i < 14)
+              player.setPosition("MR");
+            else if (i < 18)
+              player.setPosition("MC");
+            else if (i < 22)
+              player.setPosition("ST");
+            player.setAge(random.nextInt(23, 30));
+            player.setSeasonCreated(1L);
+            player.setCurrentStatus("Senior");
 
-              int reputation = (int) teamFacilities.getSeniorTrainingLevel() * 10;
-              player.setRating(random.nextInt(reputation - 20, reputation + 20));
-              humanRepository.save(player);
-            }
+            int reputation = (int) teamFacilities.getSeniorTrainingLevel() * 10;
+            player.setRating(random.nextInt(reputation - 20, reputation + 20));
+            player.setTransferValue(calculateTransferValue(player.getAge(), player.getPosition(), player.getRating()));
+
+            humanRepository.save(player);
           }
         }
       }
@@ -290,7 +304,6 @@ public class CompetitionController {
           player = _humanService.trainPlayer(player, teamFacilities);
           humanRepository.save(player);
         }
-
       }
     }
 
@@ -337,8 +350,6 @@ public class CompetitionController {
   public void resetCompetitionData() {
 
     competitionTeamInfoDetailRepository.deleteAll();
-    competitionTeamInfoMatchRepository.deleteAll();
-    competitionTeamInfoRepository.deleteAll();
 
   }
 
@@ -523,13 +534,13 @@ public class CompetitionController {
     long _roundId = Long.parseLong(roundId);
 
     List<CompetitionTeamInfo> competitionTeamInfos = competitionTeamInfoRepository
-      .findAllByRoundAndCompetitionId(_roundId, _competitionId);
+      .findAllByRoundAndCompetitionIdAndSeasonNumber(_roundId, _competitionId, Long.parseLong(getCurrentSeason()));
 
-    List<Long> participants = competitionTeamInfos
+    List<Long> participants = new ArrayList<>(competitionTeamInfos
       .stream()
       .mapToLong(CompetitionTeamInfo::getTeamId)
       .boxed()
-      .collect(Collectors.toList());
+      .collect(Collectors.toSet()));
 
     return participants;
   }
@@ -544,7 +555,8 @@ public class CompetitionController {
       competitionTeamInfoMatchRepository
         .findAll()
         .stream()
-        .filter(competitionTeamInfoMatch -> competitionTeamInfoMatch.getCompetitionId() == _competitionId && competitionTeamInfoMatch.getRound() == _roundId)
+        .filter(competitionTeamInfoMatch -> competitionTeamInfoMatch.getCompetitionId() == _competitionId && competitionTeamInfoMatch.getRound() == _roundId
+        && competitionTeamInfoMatch.getSeasonNumber().equals(getCurrentSeason()))
         .toList();
 
     List<TeamMatchView> matchViews = new ArrayList<>();
@@ -561,7 +573,7 @@ public class CompetitionController {
     teamMatchView.setTeamName1(teamRepository.findById(match.getTeam1Id()).get().getName());
     teamMatchView.setTeamName2(teamRepository.findById(match.getTeam2Id()).get().getName());
 
-    CompetitionTeamInfoDetail matchDetail = competitionTeamInfoDetailRepository.findCompetitionTeamInfoDetailByCompetitionIdAndRoundIdAndTeam1IdAndTeam2Id(competitionId, roundId, match.getTeam1Id(), match.getTeam2Id());
+    CompetitionTeamInfoDetail matchDetail = competitionTeamInfoDetailRepository.findCompetitionTeamInfoDetailByCompetitionIdAndRoundIdAndTeam1IdAndTeam2IdAndSeasonNumber(competitionId, roundId, match.getTeam1Id(), match.getTeam2Id(), Long.parseLong(getCurrentSeason()));
     if (matchDetail != null)
       teamMatchView.setScore(matchDetail.getScore());
     else
@@ -596,6 +608,7 @@ public class CompetitionController {
             competitionTeamInfoMatch.setRound(currentRound);
             competitionTeamInfoMatch.setTeam1Id(teamHomeId);
             competitionTeamInfoMatch.setTeam2Id(teamAwayId);
+            competitionTeamInfoMatch.setSeasonNumber(getCurrentSeason());
             competitionTeamInfoMatchRepository.save(competitionTeamInfoMatch);
           }
           currentRound++;
@@ -606,7 +619,7 @@ public class CompetitionController {
     } else {
 
       Collections.shuffle(participants);
-      for (int i = 0; i < participants.size(); i+=2) {
+      for (int i = 0; i < participants.size(); i += 2) {
         long teamHomeId = participants.get(i);
         long teamAwayId = participants.get(i+1);
 
@@ -615,6 +628,7 @@ public class CompetitionController {
         competitionTeamInfoMatch.setRound(_roundId);
         competitionTeamInfoMatch.setTeam1Id(teamHomeId);
         competitionTeamInfoMatch.setTeam2Id(teamAwayId);
+        competitionTeamInfoMatch.setSeasonNumber(getCurrentSeason());
         competitionTeamInfoMatchRepository.save(competitionTeamInfoMatch);
       }
     }
@@ -631,7 +645,8 @@ public class CompetitionController {
     List<CompetitionTeamInfoMatch> matches = competitionTeamInfoMatchRepository
       .findAll();
 
-    matches = matches.stream().filter(x -> x.getRound() == _roundId && x.getCompetitionId() == _competitionId).toList();
+    matches = matches.stream().filter(x -> x.getRound() == _roundId && x.getCompetitionId() == _competitionId
+    && x.getSeasonNumber().equals(getCurrentSeason())).toList();
 
     for (CompetitionTeamInfoMatch match : matches) {
       long teamId1 = match.getTeam1Id();
@@ -642,8 +657,11 @@ public class CompetitionController {
 
       int teamScore1, teamScore2;
 
-      double teamPower1 = getTotalTeamSkill(teamId1);
-      double teamPower2 = getTotalTeamSkill(teamId2);
+      List<Human> firstTeam = getBestEleven(teamId1);
+      List<Human> secondTeam = getBestEleven(teamId2);
+
+      double teamPower1 = getBestElevenRating(firstTeam);
+      double teamPower2 = getBestElevenRating(secondTeam);
 
       List<Integer> limits = calculateLimits(teamPower1, teamPower2);
       int limitA = limits.get(0);
@@ -652,7 +670,7 @@ public class CompetitionController {
       teamScore1 = random.nextInt(limitA);
       teamScore2 = random.nextInt(limitB);
 
-      if (_competitionId == 2L) {
+      if (_competitionId == 2L || _competitionId == 4L) {
         while (teamScore2 == teamScore1)
           teamScore2 = random.nextInt(5);
       }
@@ -661,12 +679,13 @@ public class CompetitionController {
       updateTeam(teamId2, _competitionId, teamScore2, teamScore1);
 
 
-      if (nextRound != -1 && _competitionId == 2L) {
+      if (nextRound != -1 && (_competitionId == 2L || _competitionId == 4L)) {
         CompetitionTeamInfo competitionTeamInfo = new CompetitionTeamInfo();
         competitionTeamInfo.setCompetitionId(_competitionId);
         competitionTeamInfo.setRound(nextRound);
 
         competitionTeamInfo.setTeamId(teamScore1 > teamScore2 ? teamId1 : teamId2);
+        competitionTeamInfo.setSeasonNumber(Long.parseLong(getCurrentSeason()));
         competitionTeamInfoRepository.save(competitionTeamInfo);
       }
 
@@ -679,6 +698,7 @@ public class CompetitionController {
       competitionTeamInfoDetail.setTeamName1(teamRepository.findById(teamId1).get().getName());
       competitionTeamInfoDetail.setTeamName2(teamRepository.findById(teamId2).get().getName());
       competitionTeamInfoDetail.setScore(teamScore1 + " - " + teamScore2);
+      competitionTeamInfoDetail.setSeasonNumber(Long.parseLong(getCurrentSeason()));
       competitionTeamInfoDetailRepository.save(competitionTeamInfoDetail);
     }
 
@@ -742,16 +762,70 @@ public class CompetitionController {
 
   private List<Long> getAllTeams() {
 
-    Set<Long> competitionIds = competitionRepository
-      .findAll()
+    return teamRepository.findAll()
       .stream()
-      .filter(competition -> competition.getTypeId() == 1L)
-      .map(Competition::getId)
-      .collect(Collectors.toSet());
-
-    return teamCompetitionRelationRepository.findAll().stream()
-      .map(TeamCompetitionRelation::getTeamId)
-      .filter(competitionIds::contains)
+      .map(Team::getId)
       .collect(Collectors.toList());
+
+  }
+
+  public HashMap<String, Integer> getMinimumPositionNeeded() {
+
+    HashMap<String, Integer> minimumPositionNeeded = new HashMap<>();
+    minimumPositionNeeded.put("GK", 2);
+    minimumPositionNeeded.put("DL", 1);
+    minimumPositionNeeded.put("DC", 3);
+    minimumPositionNeeded.put("DR", 1);
+    minimumPositionNeeded.put("MC", 3);
+    minimumPositionNeeded.put("ML", 1);
+    minimumPositionNeeded.put("MR", 1);
+    minimumPositionNeeded.put("ST", 2);
+
+    return minimumPositionNeeded;
+  }
+
+  public long calculateTransferValue(long age, String position, double rating) {
+
+    double value = rating * 10000;
+
+    return (long) value;
+  }
+
+  private double getBestElevenRating(List<Human> players) {
+
+    double bestElevenRating = 0;
+
+    for (Human player : players)
+      bestElevenRating += player.getRating();
+
+    return bestElevenRating;
+  }
+
+  private List<Human> getBestEleven(long teamId) {
+
+    List<Human> players = humanRepository
+      .findAllByTeamIdAndTypeId(teamId, TypeNames.HUMAN_TYPE)
+      .stream()
+      .sorted(Comparator.comparing(Human::getRating))
+      .toList();
+
+    List<String> positions = getPositionsForBestEleven(teamId);
+    List<Human> bestEleven = new ArrayList<>();
+
+    for (String position : positions) {
+      for (Human player : players) {
+        if (player.getPosition().equals(position)) {
+          bestEleven.add(player);
+          break;
+        }
+      }
+    }
+
+    return bestEleven;
+  }
+
+  private List<String> getPositionsForBestEleven(long teamId) {
+
+    return List.of("GK", "DL", "DC", "DC", "DR", "ML", "MC", "MC", "MR", "ST", "ST");
   }
 }

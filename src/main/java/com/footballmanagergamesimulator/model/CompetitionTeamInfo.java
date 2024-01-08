@@ -24,4 +24,5 @@ public class CompetitionTeamInfo {
    * CompetitionTeam information
    */
   private long round;
+  private long seasonNumber;
 }

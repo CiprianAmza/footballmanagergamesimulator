@@ -63,55 +63,55 @@ CREATE TABLE team (
 );
 
 INSERT INTO team (competitionId, stadiumId, historyId, name, totalFinances, transferBudget, salaryBudget, reputation, color1, color2, border, strategy)
-VALUES (1, 1, 1, 'Shadows', 10000000, 10000000, 500000, 10000, 'black', 'grey', '25', 2);
+VALUES (1, 1, 1, 'Shadows', 10000000, 10000000, 500000, 10000, 'black', 'grey', '25', 5);
 INSERT INTO team (competitionId, stadiumId, historyId, name, totalFinances, transferBudget, salaryBudget, reputation, color1, color2, border, strategy)
-VALUES (1, 1, 1, "Lightnings", 10000000, 10000000, 500000, 9000, "blue", "darkblue", "55", 3);
+VALUES (1, 1, 1, "Lightnings", 10000000, 10000000, 500000, 9000, "blue", "darkblue", "55", 5);
 INSERT INTO team (competitionId, stadiumId, historyId, name, totalFinances, transferBudget, salaryBudget, reputation, color1, color2, border, strategy)
-VALUES (1, 1, 1, "Xenon", 10000000, 10000000, 500000, 9000, "green", "darkgreen", "35", 3);
+VALUES (1, 1, 1, "Xenon", 10000000, 10000000, 500000, 9000, "green", "darkgreen", "35", 5);
 INSERT INTO team (competitionId, stadiumId, historyId, name, totalFinances, transferBudget, salaryBudget, reputation, color1, color2, border, strategy)
-VALUES (1, 1, 1, "Snow Kids", 10000000, 10000000, 500000, 8600, "white", "blue", "65", 3);
+VALUES (1, 1, 1, "Snow Kids", 10000000, 10000000, 500000, 8600, "white", "blue", "65", 2);
 INSERT INTO team (competitionId, stadiumId, historyId, name, totalFinances, transferBudget, salaryBudget, reputation, color1, color2, border, strategy)
 VALUES (1, 1, 1, "Wambas", 10000000, 10000000, 500000, 8000, "yellow", "green", "5", 4);
 INSERT INTO team (competitionId, stadiumId, historyId, name, totalFinances, transferBudget, salaryBudget, reputation, color1, color2, border, strategy)
-VALUES (1, 1, 1, "Technoid", 10000000, 10000000, 500000, 7900, "grey", "green", "70", 4);
+VALUES (1, 1, 1, "Technoid", 10000000, 10000000, 500000, 7900, "grey", "green", "70", 3);
 INSERT INTO team (competitionId, stadiumId, historyId, name, totalFinances, transferBudget, salaryBudget, reputation, color1, color2, border, strategy)
-VALUES (1, 1, 1, "Cyclops", 10000000, 10000000, 500000, 7000, "orange", "black", "45", 5);
+VALUES (1, 1, 1, "Cyclops", 10000000, 10000000, 500000, 7000, "orange", "black", "45", 2);
 INSERT INTO team (competitionId, stadiumId, historyId, name, totalFinances, transferBudget, salaryBudget, reputation, color1, color2, border, strategy)
-VALUES (1, 1, 1, "Red Tigers", 10000000, 10000000, 500000, 6900, "red", "grey", "25", 5);
+VALUES (1, 1, 1, "Red Tigers", 10000000, 10000000, 500000, 6900, "red", "grey", "25", 1);
 INSERT INTO team (competitionId, stadiumId, historyId, name, totalFinances, transferBudget, salaryBudget, reputation, color1, color2, border, strategy)
 VALUES (1, 1, 1, "Akillian", 10000000, 10000000, 500000, 6000, "white", "grey", "35", 1);
 INSERT INTO team (competitionId, stadiumId, historyId, name, totalFinances, transferBudget, salaryBudget, reputation, color1, color2, border, strategy)
-VALUES (1, 1, 1, "Rykers", 10000000, 10000000, 500000, 7000, "orange", "yellow", "60", 6);
+VALUES (1, 1, 1, "Rykers", 10000000, 10000000, 500000, 7000, "orange", "yellow", "60", 2);
 INSERT INTO team (competitionId, stadiumId, historyId, name, totalFinances, transferBudget, salaryBudget, reputation, color1, color2, border, strategy)
-VALUES (1, 1, 1, "Pirates", 10000000, 10000000, 500000, 6700, "blue", "black", "95", 6);
+VALUES (1, 1, 1, "Pirates", 10000000, 10000000, 500000, 6700, "blue", "black", "95", 1);
 INSERT INTO team (competitionId, stadiumId, historyId, name, totalFinances, transferBudget, salaryBudget, reputation, color1, color2, border, strategy)
-VALUES (1, 1, 1, "Elektras", 10000000, 10000000, 500000, 6500, "pink", "lila", "9", 1);
+VALUES (1, 1, 1, "Elektras", 10000000, 10000000, 500000, 6500, "pink", "lila", "9", 3);
 
 
 INSERT INTO team (competitionId, stadiumId, historyId, name, totalFinances, transferBudget, salaryBudget, reputation, color1, color2, border, strategy)
-VALUES (3, 1, 1, 'FC San Marino', 10000000, 10000000, 500000, 10000, 'yellow', 'orange', '25', 2);
+VALUES (3, 1, 1, 'FC San Marino', 10000000, 10000000, 500000, 10000, 'yellow', 'orange', '25', 5);
 INSERT INTO team (competitionId, stadiumId, historyId, name, totalFinances, transferBudget, salaryBudget, reputation, color1, color2, border, strategy)
-VALUES (3, 1, 1, "Tik Tok", 10000000, 10000000, 500000, 10000, "brown", "yellow", "55", 3);
+VALUES (3, 1, 1, "Tik Tok", 10000000, 10000000, 500000, 10000, "brown", "yellow", "55", 5);
 INSERT INTO team (competitionId, stadiumId, historyId, name, totalFinances, transferBudget, salaryBudget, reputation, color1, color2, border, strategy)
-VALUES (3, 1, 1, "No Merci", 10000000, 10000000, 500000, 8300, "green", "darkgreen", "35", 3);
+VALUES (3, 1, 1, "No Merci", 10000000, 10000000, 500000, 8300, "green", "darkgreen", "35", 4);
 INSERT INTO team (competitionId, stadiumId, historyId, name, totalFinances, transferBudget, salaryBudget, reputation, color1, color2, border, strategy)
-VALUES (3, 1, 1, "Karygandy", 10000000, 10000000, 500000, 7500, "white", "blue", "65", 3);
+VALUES (3, 1, 1, "Karygandy", 10000000, 10000000, 500000, 7500, "white", "blue", "65", 2);
 INSERT INTO team (competitionId, stadiumId, historyId, name, totalFinances, transferBudget, salaryBudget, reputation, color1, color2, border, strategy)
-VALUES (3, 1, 1, "Kaspersky", 10000000, 10000000, 500000, 7500, "yellow", "green", "5", 4);
+VALUES (3, 1, 1, "Kaspersky", 10000000, 10000000, 500000, 7500, "yellow", "green", "5", 2);
 INSERT INTO team (competitionId, stadiumId, historyId, name, totalFinances, transferBudget, salaryBudget, reputation, color1, color2, border, strategy)
-VALUES (3, 1, 1, "Kiov", 10000000, 10000000, 500000, 6000, "grey", "green", "70", 4);
+VALUES (3, 1, 1, "Kiov", 10000000, 10000000, 500000, 6000, "grey", "green", "70", 2);
 INSERT INTO team (competitionId, stadiumId, historyId, name, totalFinances, transferBudget, salaryBudget, reputation, color1, color2, border, strategy)
-VALUES (3, 1, 1, "Kravetsky", 10000000, 10000000, 500000, 6000, "orange", "black", "45", 5);
+VALUES (3, 1, 1, "Kravetsky", 10000000, 10000000, 500000, 6000, "orange", "black", "45", 3);
 INSERT INTO team (competitionId, stadiumId, historyId, name, totalFinances, transferBudget, salaryBudget, reputation, color1, color2, border, strategy)
-VALUES (3, 1, 1, "Kivorandy", 10000000, 10000000, 500000, 5900, "red", "grey", "25", 5);
+VALUES (3, 1, 1, "Kivorandy", 10000000, 10000000, 500000, 5900, "red", "grey", "25", 1);
 INSERT INTO team (competitionId, stadiumId, historyId, name, totalFinances, transferBudget, salaryBudget, reputation, color1, color2, border, strategy)
 VALUES (3, 1, 1, "Krogardinya", 10000000, 10000000, 500000, 5800, "white", "grey", "35", 1);
 INSERT INTO team (competitionId, stadiumId, historyId, name, totalFinances, transferBudget, salaryBudget, reputation, color1, color2, border, strategy)
-VALUES (3, 1, 1, "Raskorsya", 10000000, 10000000, 500000, 5700, "orange", "yellow", "60", 6);
+VALUES (3, 1, 1, "Raskorsya", 10000000, 10000000, 500000, 5700, "orange", "yellow", "60", 3);
 INSERT INTO team (competitionId, stadiumId, historyId, name, totalFinances, transferBudget, salaryBudget, reputation, color1, color2, border, strategy)
-VALUES (3, 1, 1, "Rygardy", 10000000, 10000000, 500000, 5650, "blue", "black", "95", 6);
+VALUES (3, 1, 1, "Rygardy", 10000000, 10000000, 500000, 5650, "blue", "black", "95", 1);
 INSERT INTO team (competitionId, stadiumId, historyId, name, totalFinances, transferBudget, salaryBudget, reputation, color1, color2, border, strategy)
-VALUES (3, 1, 1, "Kudivordy", 10000000, 10000000, 500000, 5600, "pink", "lila", "9", 1);
+VALUES (3, 1, 1, "Kudivordy", 10000000, 10000000, 500000, 5600, "pink", "lila", "9", 2);
 
 
 -- team_competition_relation values
@@ -253,59 +253,60 @@ CREATE TABLE competitionteaminfo (
   id BIGINT AUTO_INCREMENT PRIMARY KEY,
   teamId BIGINT,
   competitionId BIGINT,
-  round INT
+  round INT,
+  seasonNumber BIGINT
 );
-INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (1, 1, 1);
-INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (2, 1, 1);
-INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (3, 1, 1);
-INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (4, 1, 1);
-INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (5, 1, 1);
-INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (6, 1, 1);
-INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (7, 1, 1);
-INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (8, 1, 1);
-INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (9, 1, 1);
-INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (10, 1, 1);
-INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (11, 1, 1);
-INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (12, 1, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round, seasonNumber) VALUES (1, 1, 1, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round, seasonNumber) VALUES (2, 1, 1, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round, seasonNumber) VALUES (3, 1, 1, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round, seasonNumber) VALUES (4, 1, 1, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round, seasonNumber) VALUES (5, 1, 1, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round, seasonNumber) VALUES (6, 1, 1, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round, seasonNumber) VALUES (7, 1, 1, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round, seasonNumber) VALUES (8, 1, 1, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round, seasonNumber) VALUES (9, 1, 1, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round, seasonNumber) VALUES (10, 1, 1, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round, seasonNumber) VALUES (11, 1, 1, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round, seasonNumber) VALUES (12, 1, 1, 1);
 
-INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (13, 3, 1);
-INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (14, 3, 1);
-INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (15, 3, 1);
-INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (16, 3, 1);
-INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (17, 3, 1);
-INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (18, 3, 1);
-INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (19, 3, 1);
-INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (20, 3, 1);
-INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (21, 3, 1);
-INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (22, 3, 1);
-INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (23, 3, 1);
-INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (24, 3, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round, seasonNumber) VALUES (13, 3, 1, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round, seasonNumber) VALUES (14, 3, 1, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round, seasonNumber) VALUES (15, 3, 1, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round, seasonNumber) VALUES (16, 3, 1, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round, seasonNumber) VALUES (17, 3, 1, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round, seasonNumber) VALUES (18, 3, 1, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round, seasonNumber) VALUES (19, 3, 1, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round, seasonNumber) VALUES (20, 3, 1, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round, seasonNumber) VALUES (21, 3, 1, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round, seasonNumber) VALUES (22, 3, 1, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round, seasonNumber) VALUES (23, 3, 1, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round, seasonNumber) VALUES (24, 3, 1, 1);
 
-INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (1, 2, 2);
-INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (2, 2, 2);
-INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (3, 2, 2);
-INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (4, 2, 2);
-INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (5, 2, 1);
-INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (6, 2, 1);
-INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (7, 2, 1);
-INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (8, 2, 1);
-INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (9, 2, 1);
-INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (10, 2, 1);
-INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (11, 2, 1);
-INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (12, 2, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round, seasonNumber) VALUES (1, 2, 2, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round, seasonNumber) VALUES (2, 2, 2, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round, seasonNumber) VALUES (3, 2, 2, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round, seasonNumber) VALUES (4, 2, 2, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round, seasonNumber) VALUES (5, 2, 1, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round, seasonNumber) VALUES (6, 2, 1, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round, seasonNumber) VALUES (7, 2, 1, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round, seasonNumber) VALUES (8, 2, 1, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round, seasonNumber) VALUES (9, 2, 1, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round, seasonNumber) VALUES (10, 2, 1, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round, seasonNumber) VALUES (11, 2, 1, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round, seasonNumber) VALUES (12, 2, 1, 1);
 
-INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (13, 4, 2);
-INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (14, 4, 2);
-INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (15, 4, 2);
-INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (16, 4, 2);
-INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (17, 4, 1);
-INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (18, 4, 1);
-INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (19, 4, 1);
-INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (20, 4, 1);
-INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (21, 4, 1);
-INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (22, 4, 1);
-INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (23, 4, 1);
-INSERT INTO competitionteaminfo (teamId, competitionId, round) VALUES (24, 4, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round, seasonNumber) VALUES (13, 4, 2, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round, seasonNumber) VALUES (14, 4, 2, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round, seasonNumber) VALUES (15, 4, 2, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round, seasonNumber) VALUES (16, 4, 2, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round, seasonNumber) VALUES (17, 4, 1, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round, seasonNumber) VALUES (18, 4, 1, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round, seasonNumber) VALUES (19, 4, 1, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round, seasonNumber) VALUES (20, 4, 1, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round, seasonNumber) VALUES (21, 4, 1, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round, seasonNumber) VALUES (22, 4, 1, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round, seasonNumber) VALUES (23, 4, 1, 1);
+INSERT INTO competitionteaminfo (teamId, competitionId, round, seasonNumber) VALUES (24, 4, 1, 1);
 
 
 -- teamfacilities values
