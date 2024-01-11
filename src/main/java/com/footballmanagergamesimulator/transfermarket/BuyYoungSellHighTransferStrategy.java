@@ -43,6 +43,5 @@ public class BuyYoungSellHighTransferStrategy implements TransferStrategy {
     return players.stream()
       .map(player -> new PlayerTransferView(player.getId(), team.getId(), player.getRating(), player.getPosition(), player.getAge()))
       .collect(Collectors.toList());
-
   }
 }
