@@ -783,7 +783,6 @@ public class CompetitionController {
 
     return minimumPositionNeeded;
   }
-
   public long calculateTransferValue(long age, String position, double rating) {
 
     double value = rating * 10000;
