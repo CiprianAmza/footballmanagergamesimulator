@@ -69,7 +69,7 @@ public class CompetitionController {
     List<PlayerView> allPlayers =  getAllPlayers
       .stream()
       .map(player -> adaptPlayer(player, team))
-      .toList();
+            .collect(Collectors.toList());
 
     return allPlayers;
   }
@@ -87,7 +87,7 @@ public class CompetitionController {
     List<PlayerView> bestEleven =  getBest11
       .stream()
       .map(player -> adaptPlayer(player, team))
-      .toList();
+      .collect(Collectors.toList());
 
     return bestEleven;
   }
@@ -99,7 +99,7 @@ public class CompetitionController {
       .stream()
       .sorted((x, y) -> Double.compare(y.getRating(), x.getRating()))
       .limit(11)
-      .toList();
+      .collect(Collectors.toList());
   }
 
   private PlayerView adaptPlayer(Human human, Team team) {
@@ -129,7 +129,7 @@ public class CompetitionController {
     return teamTotalSkills
       .stream()
       .sorted((x, y) -> Double.compare(y.getValue(), x.getValue()))
-      .toList();
+      .collect(Collectors.toList());
   }
 
   @GetMapping("/getCurrentSeason")
@@ -167,7 +167,7 @@ public class CompetitionController {
             if (o1.getGoalsFor() != o2.getGoalsFor())
               return o1.getGoalsFor() < o2.getGoalsFor() ? 1 : -1;
             return 0;
-          }).toList();
+          }).collect(Collectors.toList());
 
         int index = 1;
 
@@ -521,7 +521,7 @@ public class CompetitionController {
         .stream()
         .filter(competitionTeamInfoDetail -> competitionTeamInfoDetail.getRoundId() == _roundId)
         .filter(competitionTeamInfoDetail -> competitionTeamInfoDetail.getCompetitionId() == _competitionId)
-        .toList();
+        .collect(Collectors.toList());
 
     return competitionTeamInfoDetails;
 
@@ -557,7 +557,7 @@ public class CompetitionController {
         .stream()
         .filter(competitionTeamInfoMatch -> competitionTeamInfoMatch.getCompetitionId() == _competitionId && competitionTeamInfoMatch.getRound() == _roundId
         && competitionTeamInfoMatch.getSeasonNumber().equals(getCurrentSeason()))
-        .toList();
+        .collect(Collectors.toList());
 
     List<TeamMatchView> matchViews = new ArrayList<>();
 
@@ -646,7 +646,7 @@ public class CompetitionController {
       .findAll();
 
     matches = matches.stream().filter(x -> x.getRound() == _roundId && x.getCompetitionId() == _competitionId
-    && x.getSeasonNumber().equals(getCurrentSeason())).toList();
+    && x.getSeasonNumber().equals(getCurrentSeason())).collect(Collectors.toList());
 
     for (CompetitionTeamInfoMatch match : matches) {
       long teamId1 = match.getTeam1Id();
@@ -806,7 +806,7 @@ public class CompetitionController {
       .findAllByTeamIdAndTypeId(teamId, TypeNames.HUMAN_TYPE)
       .stream()
       .sorted(Comparator.comparing(Human::getRating))
-      .toList();
+      .collect(Collectors.toList());
 
     List<String> positions = getPositionsForBestEleven(teamId);
     List<Human> bestEleven = new ArrayList<>();

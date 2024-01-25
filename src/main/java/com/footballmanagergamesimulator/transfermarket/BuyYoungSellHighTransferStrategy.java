@@ -19,7 +19,7 @@ public class BuyYoungSellHighTransferStrategy implements TransferStrategy {
       .findAllByTeamIdAndTypeId(team.getId(), TypeNames.HUMAN_TYPE)
       .stream()
       .sorted(Comparator.comparing(Human::getTransferValue).reversed())
-      .toList();
+      .collect(Collectors.toList());
 
     for (Human player : players)
       currentPositionAllocated.put(player.getPosition(), currentPositionAllocated.getOrDefault(player.getPosition(), 0) + 1);

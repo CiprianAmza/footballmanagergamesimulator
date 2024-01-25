@@ -61,7 +61,7 @@ public class HumanService {
           .findAll()
           .stream()
           .filter(human -> human.getAge() > 34)
-          .toList();
+          .collect(Collectors.toList());
 
       for (Human human: humans) {
         int chance = random.nextInt(0, 2);
