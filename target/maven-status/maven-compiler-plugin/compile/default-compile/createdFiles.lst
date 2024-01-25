@@ -38,7 +38,6 @@ com\footballmanagergamesimulator\repository\CompetitionTeamInfoDetailRepository.
 com\footballmanagergamesimulator\controller\KafkaConfig.class
 com\footballmanagergamesimulator\frontend\TeamMatchView.class
 com\footballmanagergamesimulator\transfermarket\TransferStrategy.class
-com\footballmanagergamesimulator\controller\ControllerTest.class
 com\footballmanagergamesimulator\model\TeamCompetitionDetail.class
 com\footballmanagergamesimulator\transfermarket\AbstractTransferStrategy.class
 com\footballmanagergamesimulator\model\TransferStrategy.class

@@ -2,7 +2,6 @@ package com.footballmanagergamesimulator.service;
 
 import com.footballmanagergamesimulator.model.Human;
 import com.footballmanagergamesimulator.model.Round;
-import com.footballmanagergamesimulator.model.Team;
 import com.footballmanagergamesimulator.model.TeamFacilities;
 import com.footballmanagergamesimulator.nameGenerator.NameGenerator;
 import com.footballmanagergamesimulator.repository.HumanRepository;
@@ -35,17 +34,17 @@ public class HumanService {
 
       if (human.getCurrentStatus().equals("Junior")) {
         increaseLevel = teamFacilities.getYouthTrainingLevel();
-        double chance = random.nextDouble(0, 21);
+        double chance = random.nextDouble( 21);
         if (chance <= increaseLevel)
           ratingChange = 1D;
       } else if (human.getCurrentStatus().equals("Intermediate")) {
         increaseLevel = teamFacilities.getSeniorTrainingLevel();
-        double chance = random.nextDouble(0, 21);
+        double chance = random.nextDouble(21);
         if (chance <= increaseLevel)
           ratingChange = 0.5;
       } else if (human.getCurrentStatus().equals("Senior")) {
         increaseLevel = teamFacilities.getSeniorTrainingLevel();
-        double chance = random.nextDouble(0, 21);
+        double chance = random.nextDouble( 21);
         if (chance <= increaseLevel)
           ratingChange = 0.25;
       }
@@ -64,7 +63,7 @@ public class HumanService {
           .collect(Collectors.toList());
 
       for (Human human: humans) {
-        int chance = random.nextInt(0, 2);
+        int chance = random.nextInt(2);
         if (chance == 1)
           humanRepository.delete(human);
       }
@@ -95,7 +94,7 @@ public class HumanService {
 
       Human human = new Human();
       human.setName(NameGenerator.generateName());
-      human.setAge(random.nextInt(15, 19));
+      human.setAge(18);
       human.setRating(random.nextInt(ratingAround - 20, ratingAround + 20));
       human.setPosition(generatePosition());
       human.setPotentialAbility((int) (human.getRating() + random.nextInt(30)));

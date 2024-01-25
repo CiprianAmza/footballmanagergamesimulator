@@ -641,7 +641,7 @@ public class CompetitionController {
     long _roundId = Long.parseLong(roundId);
     long nextRound = getNextRound(_roundId);
 
-    Random random = new Random();
+    java.util.Random random = new Random();
     List<CompetitionTeamInfoMatch> matches = competitionTeamInfoMatchRepository
       .findAll();
 

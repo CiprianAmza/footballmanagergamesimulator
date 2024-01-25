@@ -18,7 +18,7 @@ public class BuyMidSellMidTransferStrategy extends AbstractTransferStrategy {
       List<Human> players = new ArrayList<>(humanRepository
         .findAllByTeamIdAndTypeId(team.getId(), TypeNames.HUMAN_TYPE)
         .stream()
-        .toList());
+        .collect(Collectors.toList()));
 
       Collections.shuffle(players);
 
