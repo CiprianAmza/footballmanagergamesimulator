@@ -1,3 +1,5 @@
+-- no longer used
+
 -- human_type values
 
 DROP TABLE IF EXISTS human_type;
