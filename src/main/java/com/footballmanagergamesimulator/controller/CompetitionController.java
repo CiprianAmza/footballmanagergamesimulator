@@ -783,6 +783,7 @@ public class CompetitionController {
 
     return minimumPositionNeeded;
   }
+  
   public long calculateTransferValue(long age, String position, double rating) {
 
     double value = rating * 10000;
@@ -824,7 +825,9 @@ public class CompetitionController {
   }
 
   private List<String> getPositionsForBestEleven(long teamId) {
-
-    return List.of("GK", "DL", "DC", "DC", "DR", "ML", "MC", "MC", "MR", "ST", "ST");
+        List<String> fourFourTwo = List.of("GK", "DL", "DC", "DC", "DR", "ML", "MC", "MC", "MR", "ST", "ST");
+        List<String> fourTwoThreeOne = List.of("GK", "DL", "DC", "DC", "DR", "MC", "MC", "ML", "MR", "ST");
+    return fourFourTwo;
   }
+  
 }
