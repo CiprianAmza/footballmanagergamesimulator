@@ -826,7 +826,8 @@ public class CompetitionController {
 
   private List<String> getPositionsForBestEleven(long teamId) {
         List<String> fourFourTwo = List.of("GK", "DL", "DC", "DC", "DR", "ML", "MC", "MC", "MR", "ST", "ST");
-        List<String> fourTwoThreeOne = List.of("GK", "DL", "DC", "DC", "DR", "MC", "MC", "ML", "MR", "ST");
+        List<String> fourTwoThreeOne = List.of("GK", "DL", "DC", "DC", "DR", "MC", "MC", "MC", "ML", "MR", "ST");
+        List<String> fourOneFourOne = List.of("GK", "DL", "DC", "DC", "DR", "MC", "MC", "MC", "MC", "ST");
     return fourFourTwo;
   }
   
