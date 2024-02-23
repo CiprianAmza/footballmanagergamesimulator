@@ -31,5 +31,7 @@ public class PlayerSkills {
   private String skill2Name;
   private long skill3;
   private String skill3Name;
+  private long skill4;
+  private String skill4Name;
 
 }
