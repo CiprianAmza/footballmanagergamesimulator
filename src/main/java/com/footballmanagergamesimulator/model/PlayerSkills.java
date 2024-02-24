@@ -34,4 +34,10 @@ public class PlayerSkills {
   private long skill4;
   private String skill4Name;
 
+  /**
+ * Display information
+ */
+  private String typeCalculationSkill;
+  
+
 }
