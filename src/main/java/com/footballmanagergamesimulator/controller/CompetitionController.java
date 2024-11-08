@@ -93,7 +93,7 @@ public class CompetitionController {
   }
 
   private List<Human> getBestElevenPlayers(Team team) {
-
+    
     return humanRepository
       .findAllByTeamIdAndTypeId(team.getId(), 1L)
       .stream()
